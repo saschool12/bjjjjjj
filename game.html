@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game – Luckline</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background:#0b0b0f; color:#f1f1f1; font-family:'Segoe UI',Arial,sans-serif; padding:20px; }
+        .game-header { display:flex; justify-content:space-between; align-items:center; background:#111; padding:15px 25px; border-radius:12px; margin-bottom:20px; }
+        .game-header a { color:#00e676; text-decoration:none; font-weight:bold; }
+        .game-header .balance { font-size:1.2rem; color:#ffd700; }
+        .game-container { background:#16161d; border-radius:16px; padding:20px; max-width:700px; margin:0 auto; }
+        .bet-controls { margin:20px 0; display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:center; }
+        .bet-controls input { padding:8px 12px; border-radius:8px; border:none; background:#2a2a3a; color:#fff; width:120px; font-size:1rem; }
+        .bet-controls button { padding:8px 20px; border:none; border-radius:8px; background:#00e676; color:#000; font-weight:bold; cursor:pointer; transition:0.2s; }
+        .bet-controls button:hover { background:#1de9b6; }
+        .game-area { min-height:200px; }
+        .result { margin-top:15px; text-align:center; font-size:1.2rem; color:#00e676; }
+        .back-btn { background:#00e676; color:#000; padding:6px 16px; border-radius:6px; text-decoration:none; }
+        .back-btn:hover { background:#1de9b6; }
+        @media (max-width:600px) {
+            body { padding:10px; }
+            .game-container { padding:15px; }
+            .bet-controls input { width:100px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-header">
+        <a href="index.html" class="back-btn">← Back</a>
+        <div class="balance">💰 <span id="balanceDisplay">0</span> coins</div>
+    </div>
+
+    <div class="game-container">
+        <h2 id="gameTitle" style="color:#00e676; text-align:center;">Game</h2>
+        <div class="bet-controls">
+            <label>Bet:</label>
+            <input type="number" id="betAmount" value="10" min="1" step="1" />
+            <button id="betButton">Place Bet & Play</button>
+        </div>
+        <div id="gameArea" class="game-area"></div>
+        <div id="resultMessage" class="result"></div>
+    </div>
+
+    <script>
+        // ---------- GET PARAMS ----------
+        const params = new URLSearchParams(window.location.search);
+        const gameId = params.get('id');
+        const gameType = params.get('type');
+
+        // ---------- BALANCE ----------
+        let balance = parseInt(localStorage.getItem('slotBalance')) || 100;
+        document.getElementById('balanceDisplay').textContent = balance;
+
+        function updateBalanceUI() {
+            document.getElementById('balanceDisplay').textContent = balance;
+            localStorage.setItem('slotBalance', balance);
+        }
+
+        // ---------- BET BUTTON ----------
+        document.getElementById('betButton').addEventListener('click', function() {
+            const bet = parseInt(document.getElementById('betAmount').value);
+            if (isNaN(bet) || bet < 1) {
+                document.getElementById('resultMessage').textContent = '⚠️ Enter a valid bet amount.';
+                return;
+            }
+            if (bet > balance) {
+                document.getElementById('resultMessage').textContent = '❌ Insufficient balance!';
+                return;
+            }
+            playGame(gameType, bet);
+        });
+
+        // ---------- GAME RENDER ----------
+        function getGameHTML(type) {
+            switch(type) {
+                case 'slot': return renderSlot();
+                case 'fish': return renderFish();
+                case 'poker': return renderPoker();
+                case 'sport': return renderSport();
+                default: return '<p style="color:#8899bb;text-align:center;padding:2rem;">Game coming soon!</p>';
+            }
+        }
+
+        // ----- SLOT MACHINE -----
+        const SLOT_SYMBOLS = ['🍒','🍋','🍉','⭐','💎','7️⃣'];
+
+        function renderSlot() {
+            return `
+                <div style="display:flex;justify-content:center;gap:0.8rem;font-size:3.5rem;background:#0a0e17;padding:1.2rem;border-radius:16px;border:2px solid #00e67644;">
+                    <span id="reel1">🍒</span><span id="reel2">🍋</span><span id="reel3">🍉</span>
+                </div>
+            `;
+        }
+
+        function playSlot(bet) {
+            const r1 = document.getElementById('reel1');
+            const r2 = document.getElementById('reel2');
+            const r3 = document.getElementById('reel3');
+            const resultDiv = document.getElementById('resultMessage');
+
+            let count = 0;
+            const interval = setInterval(() => {
+                r1.textContent = SLOT_SYMBOLS[Math.floor(Math.random()*SLOT_SYMBOLS.length)];
+                r2.textContent = SLOT_SYMBOLS[Math.floor(Math.random()*SLOT_SYMBOLS.length)];
+                r3.textContent = SLOT_SYMBOLS[Math.floor(Math.random()*SLOT_SYMBOLS.length)];
+                count++;
+                if (count > 10) {
+                    clearInterval(interval);
+                    const f1 = SLOT_SYMBOLS[Math.floor(Math.random()*SLOT_SYMBOLS.length)];
+                    const f2 = SLOT_SYMBOLS[Math.floor(Math.random()*SLOT_SYMBOLS.length)];
+                    const f3 = SLOT_SYMBOLS[Math.floor(Math.random()*SLOT_SYMBOLS.length)];
+                    r1.textContent = f1; r2.textContent = f2; r3.textContent = f3;
+
+                    let win = 0;
+                    if (f1===f2 && f2===f3) { win = bet * 10; }
+                    else if (f1===f2 || f2===f3 || f1===f3) { win = bet * 2; }
+                    else { win = 0; }
+
+                    balance = balance - bet + win;
+                    updateBalanceUI();
+                    if (win > 0) {
+                        resultDiv.textContent = `🎉 You won ${win} coins! (bet: ${bet})`;
+                    } else {
+                        resultDiv.textContent = `😞 You lost ${bet} coins. Try again!`;
+                    }
+                    document.getElementById('balanceDisplay').textContent = balance;
+                }
+            }, 80);
+        }
+
+        // ----- FISH GAME -----
+        const FISH_TYPES = ['🐟','🐠','🐡','🐙','🦑','🐬','🐋','🦈'];
+        let fishCount = parseInt(localStorage.getItem('fishCount')) || 0;
+
+        function renderFish() {
+            return `
+                <div style="text-align:center;font-size:4rem;margin:10px 0;">🐟🐠🐡</div>
+                <p style="color:#88bbdd;text-align:center;">🎣 Click "Place Bet & Play" to fish!</p>
+            `;
+        }
+
+        function playFish(bet) {
+            const fish = FISH_TYPES[Math.floor(Math.random()*FISH_TYPES.length)];
+            const size = Math.random();
+            let win = 0;
+            let msg = '';
+            if (size > 0.9) { win = bet * 5; msg = `🐋 HUGE CATCH! +${win} coins!`; }
+            else if (size > 0.6) { win = bet * 2; msg = `🎣 Caught ${fish}! +${win} coins!`; }
+            else { win = 0; msg = `🐟 Small ${fish}... you lost ${bet} coins.`; }
+
+            balance = balance - bet + win;
+            updateBalanceUI();
+            document.getElementById('resultMessage').textContent = msg + ` (bet: ${bet})`;
+            document.getElementById('balanceDisplay').textContent = balance;
+            fishCount += (win > 0 ? 1 : 0);
+            localStorage.setItem('fishCount', fishCount);
+        }
+
+        // ----- POKER -----
+        function renderPoker() {
+            return `
+                <div style="text-align:center;font-size:4rem;margin:10px 0;">🃏</div>
+                <p style="color:#e8edf5;text-align:center;font-size:1.5rem;" id="pokerCard">A♠</p>
+                <p style="color:#8899bb;text-align:center;">Draw a card – win if it's higher than 7.</p>
+            `;
+        }
+
+        function playPoker(bet) {
+            const suits = ['♠','♥','♦','♣'];
+            const ranks = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
+            const rankValues = { 'A':14, '2':2, '3':3, '4':4, '5':5, '6':6, '7':7, '8':8, '9':9, '10':10, 'J':11, 'Q':12, 'K':13 };
+            const r = ranks[Math.floor(Math.random()*ranks.length)];
+            const s = suits[Math.floor(Math.random()*suits.length)];
+            const card = r + s;
+            document.getElementById('pokerCard').textContent = card;
+            const value = rankValues[r];
+            let win = 0;
+            if (value > 7) { win = bet * 2; }
+            else { win = 0; }
+            balance = balance - bet + win;
+            updateBalanceUI();
+            document.getElementById('resultMessage').textContent = win > 0 ? `🎉 You won ${win} coins!` : `😞 You lost ${bet} coins.`;
+            document.getElementById('balanceDisplay').textContent = balance;
+        }
+
+        // ----- SPORT -----
+        function renderSport() {
+            return `
+                <div style="text-align:center;font-size:4rem;margin:10px 0;">⚽</div>
+                <p style="color:#88dd88;text-align:center;">Shoot on goal!</p>
+                <div id="sportResult" style="text-align:center;font-size:1.2rem;color:#88dd88;min-height:2rem;">Ready!</div>
+            `;
+        }
+
+        function playSport(bet) {
+            const outcomes = ['⚽ Goal! 🎉', '😅 Miss!', '🔥 Shot on target!', '🥅 Saved!'];
+            const result = outcomes[Math.floor(Math.random()*outcomes.length)];
+            document.getElementById('sportResult').textContent = result;
+            let win = 0;
+            if (result.includes('Goal')) win = bet * 3;
+            else if (result.includes('on target')) win = bet * 1.5;
+            else win = 0;
+            balance = balance - bet + win;
+            updateBalanceUI();
+            document.getElementById('resultMessage').textContent = win > 0 ? `🎉 You won ${win} coins!` : `😞 You lost ${bet} coins.`;
+            document.getElementById('balanceDisplay').textContent = balance;
+        }
+
+        // ---------- MAIN PLAY FUNCTION ----------
+        function playGame(type, bet) {
+            switch(type) {
+                case 'slot': playSlot(bet); break;
+                case 'fish': playFish(bet); break;
+                case 'poker': playPoker(bet); break;
+                case 'sport': playSport(bet); break;
+                default: document.getElementById('resultMessage').textContent = 'Game not implemented.';
+            }
+        }
+
+        // ---------- INIT ----------
+        const gameName = gameId ? gameId.replace(/-/g,' ').toUpperCase() : 'Game';
+        document.getElementById('gameTitle').textContent = '🎮 ' + gameName;
+        document.getElementById('gameArea').innerHTML = getGameHTML(gameType);
+        document.getElementById('balanceDisplay').textContent = balance;
+
+        document.getElementById('betAmount').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') document.getElementById('betButton').click();
+        });
+    </script>
+</body>
+</html>

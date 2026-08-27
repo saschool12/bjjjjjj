@@ -25,19 +25,13 @@
         .cat-btn:hover { background:#2a2a3a; color:#fff; }
         .cat-btn.active { background:#00e676; color:#000; box-shadow:0 4px 20px rgba(0,230,118,0.3); }
         #game-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(180px,1fr)); gap:1.5rem; }
-        .game-card { background:#16161d; border-radius:16px; padding:1.5rem 1rem; text-align:center; cursor:pointer; transition:transform 0.3s, box-shadow 0.3s; border:1px solid #2a2a3a; box-shadow:0 4px 15px rgba(0,0,0,0.4); }
+        .game-card { background:#16161d; border-radius:16px; padding:1.5rem 1rem; text-align:center; cursor:pointer; transition:transform 0.3s, box-shadow 0.3s; border:1px solid #2a2a3a; box-shadow:0 4px 15px rgba(0,0,0,0.4); text-decoration:none; color:inherit; display:block; }
         .game-card:hover { transform:translateY(-6px); border-color:#00e676; box-shadow:0 8px 30px rgba(0,230,118,0.15); }
         .game-card .icon { font-size:3rem; margin-bottom:0.5rem; }
         .game-card .name { font-size:1.1rem; font-weight:700; }
         .game-card .sub { font-size:0.75rem; color:#5a7a9a; margin-top:4px; }
-        .play-btn { margin-top:0.8rem; padding:0.4rem 1.2rem; border:none; border-radius:20px; background:#00e676; color:#000; font-weight:700; cursor:pointer; transition:transform 0.2s; }
+        .play-btn { display:inline-block; margin-top:0.8rem; padding:0.4rem 1.2rem; border:none; border-radius:20px; background:#00e676; color:#000; font-weight:700; cursor:pointer; transition:transform 0.2s; }
         .play-btn:hover { transform:scale(1.05); }
-        .modal-overlay { display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.85); z-index:999; justify-content:center; align-items:center; padding:1rem; }
-        .modal-overlay.open { display:flex; }
-        .modal-box { background:#0f1a2b; border-radius:20px; max-width:700px; width:100%; max-height:90vh; overflow-y:auto; padding:2rem; border:1px solid #00e67644; box-shadow:0 20px 60px rgba(0,0,0,0.8); position:relative; }
-        .modal-close { position:absolute; top:12px; right:18px; font-size:2rem; background:none; border:none; color:#8899bb; cursor:pointer; }
-        .modal-close:hover { color:#fff; }
-        .modal-box h2 { color:#00e676; margin-bottom:0.5rem; }
         footer { background:#111; color:#bbb; text-align:center; padding:20px; margin-top:40px; font-size:0.9rem; }
         footer a { color:#00e676; text-decoration:none; margin:0 8px; }
         footer a:hover { text-decoration:underline; }
@@ -47,7 +41,6 @@
             .banner h1 { font-size:2rem; }
             .cat-btn { padding:0.4rem 1rem; font-size:0.8rem; }
             #game-grid { grid-template-columns:repeat(auto-fill, minmax(140px,1fr)); }
-            .modal-box { padding:1rem; }
         }
     </style>
 </head>
@@ -55,7 +48,7 @@
     <header>
         <div class="logo"><img src="https://cdn-icons-png.flaticon.com/512/3082/3082031.png" alt="logo" /> Luckline</div>
         <nav>
-            <a href="#" class="active">Home</a>
+            <a href="index.html" class="active">Home</a>
             <a href="#games">Games</a>
             <a href="#promo">Promotions</a>
             <a href="#support">Support</a>
@@ -88,14 +81,6 @@
             <a href="#">Privacy</a>
         </p>
     </footer>
-
-    <div class="modal-overlay" id="gameModal">
-        <div class="modal-box">
-            <button class="modal-close" id="closeModal">&times;</button>
-            <h2 id="modalTitle">Game</h2>
-            <div id="modalBody" class="game-container"></div>
-        </div>
-    </div>
 
     <script>
         const GAME_DATA = {
@@ -136,21 +121,13 @@
             const grid = document.getElementById('game-grid');
             const games = GAME_DATA[category] || [];
             grid.innerHTML = games.map(g => `
-                <div class="game-card" data-game="${g.id}" data-type="${g.type}">
+                <a href="game.html?id=${g.id}&type=${g.type}" class="game-card" data-game="${g.id}" data-type="${g.type}">
                     <div class="icon">${g.icon}</div>
                     <div class="name">${g.name}</div>
                     <div class="sub">${g.sub}</div>
-                    <button class="play-btn" data-game="${g.id}" data-type="${g.type}">▶ Play</button>
-                </div>
+                    <span class="play-btn">▶ Play</span>
+                </a>
             `).join('');
-
-            grid.querySelectorAll('.game-card, .play-btn').forEach(el => {
-                el.addEventListener('click', (e) => {
-                    const card = e.target.closest('.game-card');
-                    if (!card) return;
-                    openGame(card.dataset.game, card.dataset.type);
-                });
-            });
         }
 
         document.querySelectorAll('.cat-btn').forEach(btn => {
@@ -161,176 +138,6 @@
                 renderGames(currentCategory);
             });
         });
-
-        const modal = document.getElementById('gameModal');
-        const closeBtn = document.getElementById('closeModal');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalBody = document.getElementById('modalBody');
-
-        function openModal() { modal.classList.add('open'); }
-        function closeModal() { modal.classList.remove('open'); modalBody.innerHTML = ''; }
-        closeBtn.addEventListener('click', closeModal);
-        modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-
-        function openGame(gameId, gameType) {
-            let gameName = gameId;
-            for (const cat in GAME_DATA) {
-                const found = GAME_DATA[cat].find(g => g.id === gameId);
-                if (found) { gameName = found.name; break; }
-            }
-            modalTitle.textContent = `🎮 ${gameName}`;
-            modalBody.innerHTML = getGameHTML(gameType);
-            openModal();
-        }
-
-        function getGameHTML(type) {
-            switch(type) {
-                case 'slot': return renderSlot();
-                case 'fish': return renderFish();
-                case 'poker': return renderPoker();
-                case 'sport': return renderSport();
-                default: return '<p style="color:#8899bb;text-align:center;padding:2rem;">Coming soon!</p>';
-            }
-        }
-
-        let slotBalance = parseInt(localStorage.getItem('slotBalance')) || 100;
-        const SLOT_SYMBOLS = ['🍒','🍋','🍉','⭐','💎','7️⃣'];
-        let autoInterval = null;
-
-        function renderSlot() {
-            return `
-                <div id="slot-machine" style="text-align:center;padding:0.5rem 0;">
-                    <div style="display:flex;justify-content:center;gap:0.8rem;font-size:3.5rem;background:#0a0e17;padding:1.2rem;border-radius:16px;border:2px solid #00e67644;">
-                        <span id="reel1">🍒</span><span id="reel2">🍋</span><span id="reel3">🍉</span>
-                    </div>
-                    <div style="margin-top:1.2rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
-                        <button onclick="spinSlots()" style="padding:0.7rem 2rem;border:none;border-radius:30px;background:#00e676;font-weight:700;font-size:1.1rem;cursor:pointer;">🎰 SPIN</button>
-                        <button onclick="autoSpinSlots()" style="padding:0.7rem 2rem;border:none;border-radius:30px;background:#1a2a3f;color:#fff;font-weight:700;font-size:1.1rem;cursor:pointer;">⏩ Auto</button>
-                    </div>
-                    <div id="slot-result" style="margin-top:0.8rem;font-size:1.2rem;color:#00e676;min-height:2rem;"></div>
-                    <div style="margin-top:0.5rem;color:#5a7a9a;font-size:0.9rem;">Balance: <span id="slotBalance">${slotBalance}</span> coins</div>
-                </div>
-            `;
-        }
-
-        window.spinSlots = function() {
-            if (slotBalance < 5) {
-                document.getElementById('slot-result').textContent = '❌ Not enough coins!';
-                return;
-            }
-            slotBalance -= 5;
-            document.getElementById('slotBalance').textContent = slotBalance;
-            localStorage.setItem('slotBalance', slotBalance);
-
-            const r1 = document.getElementById('reel1');
-            const r2 = document.getElementById('reel2');
-            const r3 = document.getElementById('reel3');
-
-            let count = 0;
-            const interval = setInterval(() => {
-                r1.textContent = SLOT_SYMBOLS[Math.floor(Math.random()*SLOT_SYMBOLS.length)];
-                r2.textContent = SLOT_SYMBOLS[Math.floor(Math.random()*SLOT_SYMBOLS.length)];
-                r3.textContent = SLOT_SYMBOLS[Math.floor(Math.random()*SLOT_SYMBOLS.length)];
-                count++;
-                if (count > 10) {
-                    clearInterval(interval);
-                    const f1 = SLOT_SYMBOLS[Math.floor(Math.random()*SLOT_SYMBOLS.length)];
-                    const f2 = SLOT_SYMBOLS[Math.floor(Math.random()*SLOT_SYMBOLS.length)];
-                    const f3 = SLOT_SYMBOLS[Math.floor(Math.random()*SLOT_SYMBOLS.length)];
-                    r1.textContent = f1; r2.textContent = f2; r3.textContent = f3;
-                    const result = document.getElementById('slot-result');
-                    if (f1===f2 && f2===f3) {
-                        const win = 50;
-                        slotBalance += win;
-                        result.textContent = `🎉 JACKPOT! +${win} coins!`;
-                    } else if (f1===f2 || f2===f3 || f1===f3) {
-                        const win = 10;
-                        slotBalance += win;
-                        result.textContent = `✨ Match! +${win} coins!`;
-                    } else {
-                        result.textContent = '😞 Try again!';
-                    }
-                    document.getElementById('slotBalance').textContent = slotBalance;
-                    localStorage.setItem('slotBalance', slotBalance);
-                }
-            }, 80);
-        };
-
-        window.autoSpinSlots = function() {
-            if (autoInterval) {
-                clearInterval(autoInterval);
-                autoInterval = null;
-                document.querySelector('#slot-machine button:last-child').textContent = '⏩ Auto';
-                return;
-            }
-            document.querySelector('#slot-machine button:last-child').textContent = '⏹ Stop';
-            autoInterval = setInterval(() => {
-                window.spinSlots();
-                if (slotBalance < 5) {
-                    clearInterval(autoInterval);
-                    autoInterval = null;
-                    document.querySelector('#slot-machine button:last-child').textContent = '⏩ Auto';
-                    document.getElementById('slot-result').textContent = '💸 Game Over!';
-                }
-            }, 600);
-        };
-
-        let fishCount = parseInt(localStorage.getItem('fishCount')) || 0;
-        const FISH_TYPES = ['🐟','🐠','🐡','🐙','🦑','🐬','🐋','🦈'];
-
-        function renderFish() {
-            return `
-                <div id="fish-game" style="text-align:center;padding:0.5rem 0;">
-                    <div style="background:#0a1a2a;border-radius:16px;padding:1.5rem;border:2px solid #2a5a8a;">
-                        <div style="font-size:4rem;margin-bottom:0.5rem;">🐟🐠🐡</div>
-                        <p style="color:#88bbdd;font-size:1rem;">🎣 Click to fish!</p>
-                        <button onclick="catchFish()" style="padding:0.7rem 2.5rem;border:none;border-radius:30px;background:linear-gradient(135deg,#2a8aff,#0066cc);color:#fff;font-weight:700;font-size:1.1rem;cursor:pointer;margin-top:0.8rem;">🎣 Cast Line</button>
-                        <div id="fish-result" style="margin-top:0.8rem;font-size:1.2rem;color:#88ddff;min-height:2rem;"></div>
-                        <div style="margin-top:0.3rem;color:#5a7a9a;font-size:0.9rem;">Fish caught: <span id="fishCount">${fishCount}</span></div>
-                    </div>
-                </div>
-            `;
-        }
-
-        window.catchFish = function() {
-            const fish = FISH_TYPES[Math.floor(Math.random()*FISH_TYPES.length)];
-            const size = Math.random();
-            let msg = '';
-            if (size > 0.9) { msg = '🐋 HUGE CATCH! +5 points!'; fishCount += 5; }
-            else if (size > 0.6) { msg = `🎣 Caught ${fish}! +2 points!`; fishCount += 2; }
-            else { msg = `🐟 Small ${fish}... +1 point.`; fishCount += 1; }
-            document.getElementById('fish-result').textContent = msg;
-            document.getElementById('fishCount').textContent = fishCount;
-            localStorage.setItem('fishCount', fishCount);
-        };
-
-        function renderPoker() {
-            const suits = ['♠','♥','♦','♣'];
-            const ranks = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
-            const card = suits[Math.floor(Math.random()*suits.length)] + ranks[Math.floor(Math.random()*ranks.length)];
-            return `
-                <div style="text-align:center;padding:0.5rem 0;">
-                    <div style="background:#0a0e17;border-radius:16px;padding:2rem;border:2px solid #00e67644;">
-                        <div style="font-size:4rem;">🃏</div>
-                        <p style="color:#e8edf5;font-size:1.8rem;font-weight:700;" id="pokerCard">${card}</p>
-                        <button onclick="document.getElementById('pokerCard').textContent = ['♠','♥','♦','♣'][Math.floor(Math.random()*4)] + ['A','2','3','4','5','6','7','8','9','10','J','Q','K'][Math.floor(Math.random()*13)]" style="padding:0.6rem 2rem;border:none;border-radius:30px;background:#00e676;font-weight:700;cursor:pointer;margin-top:0.5rem;">🔄 Draw</button>
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderSport() {
-            return `
-                <div style="text-align:center;padding:0.5rem 0;">
-                    <div style="background:#0a1a0a;border-radius:16px;padding:1.5rem;border:2px solid #2a8a2a;">
-                        <div style="font-size:4rem;">⚽</div>
-                        <p style="color:#88dd88;font-size:1.1rem;">🏆 Kick the ball!</p>
-                        <button onclick="document.getElementById('sportResult').textContent = ['⚽ Goal! 🎉','😅 Miss!','🔥 Shot on target!','🥅 Saved!'][Math.floor(Math.random()*4)]" style="padding:0.7rem 2.5rem;border:none;border-radius:30px;background:linear-gradient(135deg,#2a8a2a,#1a5a1a);color:#fff;font-weight:700;font-size:1.1rem;cursor:pointer;margin-top:0.5rem;">⚡ Shoot</button>
-                        <div id="sportResult" style="margin-top:0.8rem;font-size:1.2rem;color:#88dd88;min-height:2rem;">Ready!</div>
-                    </div>
-                </div>
-            `;
-        }
 
         renderGames('slots');
     </script>
