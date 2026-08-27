@@ -1,372 +1,338 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Luckline — Home</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Luckline – Play & Win</title>
     <style>
-        /* General */
-        body {
-            margin: 0;
-            font-family: "Segoe UI", Arial, sans-serif;
-            background: #0b0b0f;
-            color: #f1f1f1;
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background:#0b0b0f; color:#f1f1f1; font-family:'Segoe UI',Arial,sans-serif; }
+        header { background:linear-gradient(90deg,#111,#222); padding:15px 30px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:10; }
+        header .logo { font-size:1.6rem; font-weight:bold; color:#00e676; display:flex; align-items:center; gap:8px; }
+        header .logo img { height:28px; width:28px; }
+        nav a { color:#ddd; text-decoration:none; margin:0 12px; font-weight:500; transition:color 0.2s; }
+        nav a:hover, nav a.active { color:#00e676; }
+        .btn { background:#00e676; color:#000; padding:6px 14px; border-radius:6px; font-weight:bold; text-decoration:none; }
+        .btn:hover { background:#1de9b6; }
+        .banner { background:url('https://images.pexels.com/photos/1871508/pexels-photo-1871508.jpeg') center/cover no-repeat; height:300px; display:flex; flex-direction:column; justify-content:center; align-items:center; color:#fff; text-shadow:0 2px 6px rgba(0,0,0,0.8); text-align:center; }
+        .banner h1 { font-size:2.8rem; margin-bottom:8px; }
+        .banner p { font-size:1.2rem; margin-bottom:15px; }
+        .banner .btn { padding:12px 24px; border-radius:8px; }
+        .section { padding:40px 20px; max-width:1200px; margin:auto; }
+        .section h2 { text-align:center; color:#00e676; margin-bottom:30px; font-size:2rem; }
+        .categories { display:flex; flex-wrap:wrap; justify-content:center; gap:0.8rem; margin-bottom:2rem; }
+        .cat-btn { padding:0.7rem 1.8rem; border:none; border-radius:30px; font-weight:600; cursor:pointer; background:#1a1a24; color:#8899bb; transition:all 0.3s ease; font-size:1rem; }
+        .cat-btn:hover { background:#2a2a3a; color:#fff; }
+        .cat-btn.active { background:#00e676; color:#000; box-shadow:0 4px 20px rgba(0,230,118,0.3); }
+        #game-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(180px,1fr)); gap:1.5rem; }
+        .game-card { background:#16161d; border-radius:16px; padding:1.5rem 1rem; text-align:center; cursor:pointer; transition:transform 0.3s, box-shadow 0.3s; border:1px solid #2a2a3a; box-shadow:0 4px 15px rgba(0,0,0,0.4); }
+        .game-card:hover { transform:translateY(-6px); border-color:#00e676; box-shadow:0 8px 30px rgba(0,230,118,0.15); }
+        .game-card .icon { font-size:3rem; margin-bottom:0.5rem; }
+        .game-card .name { font-size:1.1rem; font-weight:700; }
+        .game-card .sub { font-size:0.75rem; color:#5a7a9a; margin-top:4px; }
+        .play-btn { margin-top:0.8rem; padding:0.4rem 1.2rem; border:none; border-radius:20px; background:#00e676; color:#000; font-weight:700; cursor:pointer; transition:transform 0.2s; }
+        .play-btn:hover { transform:scale(1.05); }
+        .modal-overlay { display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.85); z-index:999; justify-content:center; align-items:center; padding:1rem; }
+        .modal-overlay.open { display:flex; }
+        .modal-box { background:#0f1a2b; border-radius:20px; max-width:700px; width:100%; max-height:90vh; overflow-y:auto; padding:2rem; border:1px solid #00e67644; box-shadow:0 20px 60px rgba(0,0,0,0.8); position:relative; }
+        .modal-close { position:absolute; top:12px; right:18px; font-size:2rem; background:none; border:none; color:#8899bb; cursor:pointer; }
+        .modal-close:hover { color:#fff; }
+        .modal-box h2 { color:#00e676; margin-bottom:0.5rem; }
+        footer { background:#111; color:#bbb; text-align:center; padding:20px; margin-top:40px; font-size:0.9rem; }
+        footer a { color:#00e676; text-decoration:none; margin:0 8px; }
+        footer a:hover { text-decoration:underline; }
+        @media (max-width:600px) {
+            header { flex-wrap:wrap; gap:10px; }
+            nav a { margin:0 6px; font-size:0.9rem; }
+            .banner h1 { font-size:2rem; }
+            .cat-btn { padding:0.4rem 1rem; font-size:0.8rem; }
+            #game-grid { grid-template-columns:repeat(auto-fill, minmax(140px,1fr)); }
+            .modal-box { padding:1rem; }
         }
-        h1, h2, h3 { margin: 0 0 15px; }
-
-        /* Header */
-        header {
-            background: linear-gradient(90deg, #111, #222);
-            padding: 15px 30px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: sticky;
-            top: 0;
-
-            z-index: 10;
-        }
-        header .logo {
-            font-size: 1.6rem;
-            font-weight: bold;
-            color: #00e676;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        header .logo img {
-            height: 28px;
-            width: 28px;
-        }
-        nav a {
-            color: #ddd;
-            text-decoration: none;
-            margin: 0 12px;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-        nav a:hover { color: #00e676; }
-        .btn {
-            background: #00e676;
-            color: #000;
-            padding: 6px 14px;
-            border-radius: 6px;
-            font-weight: bold;
-        }
-        
-        /* Banner */
-        .banner {
-            background: url('https://images.pexels.com/photos/1871508/pexels-photo-1871508.jpeg') center/cover no-repeat;
-            height: 420px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: #fff;
-            text-shadow: 0 2px 6px rgba(0,0,0,0.8);
-            text-align: center;
-        }
-        .banner h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-        }
-        .banner p {
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-        }
-        .banner .btn {
-            background: #00e676;
-            padding: 12px 24px;
-            border-radius: 8px;
-            color: #000;
-            font-weight: bold;
-            text-decoration: none;
-        }
-        .banner .btn:hover { background: #1de9b6; }
-        
-        /* Hero CTA */
-        .hero-cta {
-            text-align: center;
-            padding: 40px 20px;
-            background: #111;
-            border-radius: 12px;
-            margin: 40px auto;
-            max-width: 800px;
-        }
-        .hero-cta h2 { color: #00e676; }
-        .cta-btn {
-            display: inline-block;
-            background: #00e676;
-            color: #000;
-            padding: 12px 20px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-        .cta-btn:hover { background: #1de9b6; }
-        
-        /* Sections */
-        .section {
-            padding: 40px 20px;
-            max-width: 1100px;
-            margin: auto;
-        }
-        .section h2 {
-            text-align: center;
-            color: #00e676;
-            margin-bottom: 30px;
-        }
-        
-        /* Cards */
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
-        }
-        .card {
-            background: #16161d;
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.5);
-            transition: transform 0.2s;
-        }
-        .card:hover { transform: translateY(-6px); }
-        .card img { 
-            width: 60px; 
-            margin-bottom: 12px;
-            border-radius: 10px;
-        }
-        
-        /* Matches */
-        .match-card {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #16161d;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.5);
-        }
-        .odds-box span {
-            margin-right: 15px;
-            color: #ffca28;
-            font-weight: bold;
-        }
-        .odds-box button {
-            padding: 6px 12px;
-            background: #00e676;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        .odds-box button:hover { background: #1de9b6; }
-        .match-img {
-            width: 100%;
-            border-radius: 12px;
-            margin: 20px 0;
-        }
-
-        /* Promo Slider */
-        .slider {
-            display: flex;
-            overflow-x: auto;
-            gap: 15px;
-            padding: 10px;
-            scrollbar-width: none;
-        }
-        .promo {
-            min-width: 200px;
-            background: #222;
-            padding: 20px;
-            border-radius: 10px;
-            flex: 0 0 auto;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.5);
-            text-align: center;
-        }
-        .promo img {
-            width: 100%;
-            border-radius: 8px;
-            margin-bottom: 8px;
-        }
-        
-        /* Testimonials */
-        .testimonials { padding: 40px; text-align: center; }
-        .testimonials blockquote {
-            background: #16161d;
-            padding: 20px;
-            margin: 10px auto;
-            border-radius: 10px;
-            max-width: 600px;
-            font-style: italic;
-        }
-        
-        /* Bet Slip */
-        .bet-slip {
-            position: fixed;
-            top: 80px;
-            right: 20px;
-            width: 220px;
-            background: #16161d;
-            border-radius: 10px;
-            padding: 15px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.6);
-        }
-        .bet-slip h3 { margin: 0 0 10px; color: #00e676; }
-        .bet-slip ul { list-style: none; padding: 0; margin: 0 0 10px; font-size: 0.9rem; }
-        .bet-slip li { background: #222; margin-bottom: 5px; padding: 5px; border-radius: 6px; }
-        #placeBetBtn {
-            width: 100%; padding: 8px; background: #00e676; color: #000;
-            border: none; border-radius: 6px; font-weight: bold; cursor: pointer;
-        }
-        #placeBetBtn:hover { background: #1de9b6; }
-
-        /* Footer */
-        footer {
-            background: #111;
-            color: #bbb;
-            text-align: center;
-            padding: 20px;
-            margin-top: 40px;
-            font-size: 0.9rem;
-        }
-        footer a { color: #00e676; text-decoration: none; margin: 0 8px; }
-        footer a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
-
     <header>
-        <div class="logo">
-            <img src="https://cdn-icons-png.flaticon.com/512/3082/3082031.png" alt="logo">
-            Luckline
-        </div>
+        <div class="logo"><img src="https://cdn-icons-png.flaticon.com/512/3082/3082031.png" alt="logo" /> Luckline</div>
         <nav>
-            <a href="index.html">Home</a>
-            <a href="sports.html">Sports</a>
-            <a href="live.html">Live</a>
-            <a href="bet.html">Bet</a>
-            <a href="casino.html">Casino</a>
-            <a href="promotions.html">Promotions</a>
-            <a href="support.html">Support</a>
-            <a class="btn" href="login.html">Login</a>
+            <a href="#" class="active">Home</a>
+            <a href="#games">Games</a>
+            <a href="#promo">Promotions</a>
+            <a href="#support">Support</a>
+            <a class="btn" href="#">Login</a>
         </nav>
     </header>
 
     <section class="banner">
-        <h1>Welcome to Luckline</h1>
-        <p>Bet smart. Play safe. Win big.</p>
-        <a href="register.html" class="btn">Register Now</a>
-    </section>
-    
-    <section class="hero-cta">
-        <h2>Join Luckline Today</h2>
-        <p>Get a 100% Welcome Bonus up to ₹10,000!</p>
-        <a href="register.html" class="cta-btn">Register Now</a>
+        <h1>🎰 Play & Win Big</h1>
+        <p>Slots • Fish • Casino • Sports • Lottery</p>
+        <a href="#games" class="btn">Start Playing</a>
     </section>
 
-    <section class="section">
-        <h2>Our Features</h2>
-        <div class="cards">
-            <div class="card">
-                <img src="https://cdn-icons-png.flaticon.com/512/11496/11496884.png" alt="Poker cards icon">
-                <h3>Card Games</h3>
-                <p>Poker, Blackjack, Rummy & more.</p>
-            </div>
-            <div class="card">
-                <img src="https://cdn-icons-png.flaticon.com/512/10777/10777508.png" alt="Coin icon">
-                <h3>Jackpots</h3>
-                <p>Progressive jackpots with huge payouts.</p>
-            </div>
-            <div class="card">
-                <img src="https://cdn-icons-png.flaticon.com/512/11497/11497042.png" alt="Casino chip icon">
-                <h3>Live Casino</h3>
-                <p>Real dealers, real-time action.</p>
-            </div>
-            <div class="card">
-                <img src="https://cdn-icons-png.flaticon.com/512/10053/10053457.png" alt="Diamond icon">
-                <h3>High Stakes</h3>
-                <p>Play with high limits & win big.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="section">
-        <h2>Featured Games</h2>
-        <div class="match-card">
-            <div>
-                <h3>Texas Hold'em</h3>
-                <p>Starts in 10 minutes • Table 1</p>
-            </div>
-            <div class="odds-box">
-                <span>Join Now</span>
-                <button onclick="addToSlip('Texas Hold\'em', 'Join')">Play</button>
-            </div>
-        </div>
-        <div class="match-card">
-            <div>
-                <h3>Blackjack Live</h3>
-                <p>Starts in 5 minutes • Live Table</p>
-            </div>
-            <div class="odds-box">
-                <span>Join Now</span>
-                <button onclick="addToSlip('Blackjack Live', 'Join')">Play</button>
-            </div>
-        </div>
-    </section>
-
-    <section class="section">
-        <h2>🔥 Hot Promotions</h2>
-        <div class="slider">
-            <div class="promo">
-                🎁 Welcome Bonus
-            </div>
-            <div class="promo">
-                ⚡ Weekly Jackpot
-            </div>
-            <div class="promo">
-                🏆 VIP Club Rewards
-            </div>
-        </div>
-    </section>
-    
-    <section class="testimonials">
-        <h2>What Players Say</h2>
-        <blockquote>"Fast withdrawals and great odds!" — Ankit</blockquote>
-        <blockquote>"The best betting site I’ve used." — Priya</blockquote>
-        <blockquote>"User-friendly and super secure." — Karan</blockquote>
+    <section id="games" class="section">
+        <h2>🎮 Game Categories</h2>
+        <nav class="categories">
+            <button class="cat-btn active" data-category="slots">🎰 Slots</button>
+            <button class="cat-btn" data-category="fish">🐟 Fish</button>
+            <button class="cat-btn" data-category="casino">♠️ Casino</button>
+            <button class="cat-btn" data-category="sports">⚽ Sports</button>
+            <button class="cat-btn" data-category="lottery">🎲 Lottery</button>
+        </nav>
+        <div id="game-grid"></div>
     </section>
 
     <footer>
         <p>© 2025 Luckline |
-            <a href="terms.html">Terms</a> |
-            <a href="support.html">Support</a> |
-            <a href="privacy.html">Privacy</a>
+            <a href="#">Terms</a> |
+            <a href="#">Support</a> |
+            <a href="#">Privacy</a>
         </p>
     </footer>
 
-   <div class="bet-slip" id="betSlip">
-  <h3>My Bet Slip</h3>
-  <button onclick="window.location.href='bet.html'">Place Bet</button>
-</div>
+    <div class="modal-overlay" id="gameModal">
+        <div class="modal-box">
+            <button class="modal-close" id="closeModal">&times;</button>
+            <h2 id="modalTitle">Game</h2>
+            <div id="modalBody" class="game-container"></div>
+        </div>
+    </div>
 
     <script>
-        function addToSlip(match, odds) {
-            const slipList = document.getElementById("slipList");
-            const li = document.createElement("li");
-            li.textContent = match + " | Odds: " + odds;
-            slipList.appendChild(li);
+        const GAME_DATA = {
+            slots: [
+                { id:'super-ace', name:'Super Ace', sub:'JILI', icon:'🃏', type:'slot' },
+                { id:'wild-bounty', name:'Wild Bounty', sub:'Hacksaw', icon:'🌾', type:'slot' },
+                { id:'dragon-gem', name:'Dragon Gem', sub:'PG', icon:'🐉', type:'slot' },
+                { id:'golden-empire', name:'Golden Empire', sub:'JILI', icon:'🏛️', type:'slot' }
+            ],
+            fish: [
+                { id:'poker-kingdom', name:'Poker Kingdom', sub:'Fishing', icon:'🐠', type:'fish' },
+                { id:'golden-empire-fish', name:'Golden Empire', sub:'Fishing', icon:'🐟', type:'fish' },
+                { id:'fortune-ge', name:'Fortune GE', sub:'Fishing', icon:'🎣', type:'fish' }
+            ],
+            casino: [
+                { id:'poker', name:'Poker', sub:'Classic', icon:'♠️', type:'poker' },
+                { id:'money-coming', name:'Money Coming', sub:'JILI', icon:'💰', type:'slot' },
+                { id:'pinata-wins', name:'Pinata Wins', sub:'PG', icon:'🎉', type:'slot' },
+                { id:'treasures', name:'Treasures of...', sub:'JILI', icon:'💎', type:'slot' }
+            ],
+            sports: [
+                { id:'money-coming-sport', name:'Money Coming', sub:'Sports', icon:'⚽', type:'sport' },
+                { id:'pinata-wins-sport', name:'Pinata Wins', sub:'Sports', icon:'🏆', type:'sport' },
+                { id:'pp', name:'PP', sub:'Sports', icon:'🏏', type:'sport' },
+                { id:'fc', name:'FC', sub:'Sports', icon:'⚽', type:'sport' },
+                { id:'pg', name:'PG', sub:'Sports', icon:'🏀', type:'sport' }
+            ],
+            lottery: [
+                { id:'sweet-bonanza', name:'Sweet Bonanza', sub:'PG', icon:'🍭', type:'slot' },
+                { id:'chinese-new', name:'Chinese New Year', sub:'JILI', icon:'🧧', type:'slot' },
+                { id:'wild-ape', name:'Wild Ape #32', sub:'Hacksaw', icon:'🦍', type:'slot' }
+            ]
+        };
+
+        let currentCategory = 'slots';
+
+        function renderGames(category) {
+            const grid = document.getElementById('game-grid');
+            const games = GAME_DATA[category] || [];
+            grid.innerHTML = games.map(g => `
+                <div class="game-card" data-game="${g.id}" data-type="${g.type}">
+                    <div class="icon">${g.icon}</div>
+                    <div class="name">${g.name}</div>
+                    <div class="sub">${g.sub}</div>
+                    <button class="play-btn" data-game="${g.id}" data-type="${g.type}">▶ Play</button>
+                </div>
+            `).join('');
+
+            grid.querySelectorAll('.game-card, .play-btn').forEach(el => {
+                el.addEventListener('click', (e) => {
+                    const card = e.target.closest('.game-card');
+                    if (!card) return;
+                    openGame(card.dataset.game, card.dataset.type);
+                });
+            });
         }
-        document.addEventListener("DOMContentLoaded", () => {
-            document.getElementById("placeBetBtn").addEventListener("click", function() {
-                alert("✅ Bet placed successfully!");
-                document.getElementById("slipList").innerHTML = "";
+
+        document.querySelectorAll('.cat-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentCategory = btn.dataset.category;
+                renderGames(currentCategory);
             });
         });
-    </script>
 
+        const modal = document.getElementById('gameModal');
+        const closeBtn = document.getElementById('closeModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalBody = document.getElementById('modalBody');
+
+        function openModal() { modal.classList.add('open'); }
+        function closeModal() { modal.classList.remove('open'); modalBody.innerHTML = ''; }
+        closeBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+        function openGame(gameId, gameType) {
+            let gameName = gameId;
+            for (const cat in GAME_DATA) {
+                const found = GAME_DATA[cat].find(g => g.id === gameId);
+                if (found) { gameName = found.name; break; }
+            }
+            modalTitle.textContent = `🎮 ${gameName}`;
+            modalBody.innerHTML = getGameHTML(gameType);
+            openModal();
+        }
+
+        function getGameHTML(type) {
+            switch(type) {
+                case 'slot': return renderSlot();
+                case 'fish': return renderFish();
+                case 'poker': return renderPoker();
+                case 'sport': return renderSport();
+                default: return '<p style="color:#8899bb;text-align:center;padding:2rem;">Coming soon!</p>';
+            }
+        }
+
+        let slotBalance = parseInt(localStorage.getItem('slotBalance')) || 100;
+        const SLOT_SYMBOLS = ['🍒','🍋','🍉','⭐','💎','7️⃣'];
+        let autoInterval = null;
+
+        function renderSlot() {
+            return `
+                <div id="slot-machine" style="text-align:center;padding:0.5rem 0;">
+                    <div style="display:flex;justify-content:center;gap:0.8rem;font-size:3.5rem;background:#0a0e17;padding:1.2rem;border-radius:16px;border:2px solid #00e67644;">
+                        <span id="reel1">🍒</span><span id="reel2">🍋</span><span id="reel3">🍉</span>
+                    </div>
+                    <div style="margin-top:1.2rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+                        <button onclick="spinSlots()" style="padding:0.7rem 2rem;border:none;border-radius:30px;background:#00e676;font-weight:700;font-size:1.1rem;cursor:pointer;">🎰 SPIN</button>
+                        <button onclick="autoSpinSlots()" style="padding:0.7rem 2rem;border:none;border-radius:30px;background:#1a2a3f;color:#fff;font-weight:700;font-size:1.1rem;cursor:pointer;">⏩ Auto</button>
+                    </div>
+                    <div id="slot-result" style="margin-top:0.8rem;font-size:1.2rem;color:#00e676;min-height:2rem;"></div>
+                    <div style="margin-top:0.5rem;color:#5a7a9a;font-size:0.9rem;">Balance: <span id="slotBalance">${slotBalance}</span> coins</div>
+                </div>
+            `;
+        }
+
+        window.spinSlots = function() {
+            if (slotBalance < 5) {
+                document.getElementById('slot-result').textContent = '❌ Not enough coins!';
+                return;
+            }
+            slotBalance -= 5;
+            document.getElementById('slotBalance').textContent = slotBalance;
+            localStorage.setItem('slotBalance', slotBalance);
+
+            const r1 = document.getElementById('reel1');
+            const r2 = document.getElementById('reel2');
+            const r3 = document.getElementById('reel3');
+
+            let count = 0;
+            const interval = setInterval(() => {
+                r1.textContent = SLOT_SYMBOLS[Math.floor(Math.random()*SLOT_SYMBOLS.length)];
+                r2.textContent = SLOT_SYMBOLS[Math.floor(Math.random()*SLOT_SYMBOLS.length)];
+                r3.textContent = SLOT_SYMBOLS[Math.floor(Math.random()*SLOT_SYMBOLS.length)];
+                count++;
+                if (count > 10) {
+                    clearInterval(interval);
+                    const f1 = SLOT_SYMBOLS[Math.floor(Math.random()*SLOT_SYMBOLS.length)];
+                    const f2 = SLOT_SYMBOLS[Math.floor(Math.random()*SLOT_SYMBOLS.length)];
+                    const f3 = SLOT_SYMBOLS[Math.floor(Math.random()*SLOT_SYMBOLS.length)];
+                    r1.textContent = f1; r2.textContent = f2; r3.textContent = f3;
+                    const result = document.getElementById('slot-result');
+                    if (f1===f2 && f2===f3) {
+                        const win = 50;
+                        slotBalance += win;
+                        result.textContent = `🎉 JACKPOT! +${win} coins!`;
+                    } else if (f1===f2 || f2===f3 || f1===f3) {
+                        const win = 10;
+                        slotBalance += win;
+                        result.textContent = `✨ Match! +${win} coins!`;
+                    } else {
+                        result.textContent = '😞 Try again!';
+                    }
+                    document.getElementById('slotBalance').textContent = slotBalance;
+                    localStorage.setItem('slotBalance', slotBalance);
+                }
+            }, 80);
+        };
+
+        window.autoSpinSlots = function() {
+            if (autoInterval) {
+                clearInterval(autoInterval);
+                autoInterval = null;
+                document.querySelector('#slot-machine button:last-child').textContent = '⏩ Auto';
+                return;
+            }
+            document.querySelector('#slot-machine button:last-child').textContent = '⏹ Stop';
+            autoInterval = setInterval(() => {
+                window.spinSlots();
+                if (slotBalance < 5) {
+                    clearInterval(autoInterval);
+                    autoInterval = null;
+                    document.querySelector('#slot-machine button:last-child').textContent = '⏩ Auto';
+                    document.getElementById('slot-result').textContent = '💸 Game Over!';
+                }
+            }, 600);
+        };
+
+        let fishCount = parseInt(localStorage.getItem('fishCount')) || 0;
+        const FISH_TYPES = ['🐟','🐠','🐡','🐙','🦑','🐬','🐋','🦈'];
+
+        function renderFish() {
+            return `
+                <div id="fish-game" style="text-align:center;padding:0.5rem 0;">
+                    <div style="background:#0a1a2a;border-radius:16px;padding:1.5rem;border:2px solid #2a5a8a;">
+                        <div style="font-size:4rem;margin-bottom:0.5rem;">🐟🐠🐡</div>
+                        <p style="color:#88bbdd;font-size:1rem;">🎣 Click to fish!</p>
+                        <button onclick="catchFish()" style="padding:0.7rem 2.5rem;border:none;border-radius:30px;background:linear-gradient(135deg,#2a8aff,#0066cc);color:#fff;font-weight:700;font-size:1.1rem;cursor:pointer;margin-top:0.8rem;">🎣 Cast Line</button>
+                        <div id="fish-result" style="margin-top:0.8rem;font-size:1.2rem;color:#88ddff;min-height:2rem;"></div>
+                        <div style="margin-top:0.3rem;color:#5a7a9a;font-size:0.9rem;">Fish caught: <span id="fishCount">${fishCount}</span></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        window.catchFish = function() {
+            const fish = FISH_TYPES[Math.floor(Math.random()*FISH_TYPES.length)];
+            const size = Math.random();
+            let msg = '';
+            if (size > 0.9) { msg = '🐋 HUGE CATCH! +5 points!'; fishCount += 5; }
+            else if (size > 0.6) { msg = `🎣 Caught ${fish}! +2 points!`; fishCount += 2; }
+            else { msg = `🐟 Small ${fish}... +1 point.`; fishCount += 1; }
+            document.getElementById('fish-result').textContent = msg;
+            document.getElementById('fishCount').textContent = fishCount;
+            localStorage.setItem('fishCount', fishCount);
+        };
+
+        function renderPoker() {
+            const suits = ['♠','♥','♦','♣'];
+            const ranks = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
+            const card = suits[Math.floor(Math.random()*suits.length)] + ranks[Math.floor(Math.random()*ranks.length)];
+            return `
+                <div style="text-align:center;padding:0.5rem 0;">
+                    <div style="background:#0a0e17;border-radius:16px;padding:2rem;border:2px solid #00e67644;">
+                        <div style="font-size:4rem;">🃏</div>
+                        <p style="color:#e8edf5;font-size:1.8rem;font-weight:700;" id="pokerCard">${card}</p>
+                        <button onclick="document.getElementById('pokerCard').textContent = ['♠','♥','♦','♣'][Math.floor(Math.random()*4)] + ['A','2','3','4','5','6','7','8','9','10','J','Q','K'][Math.floor(Math.random()*13)]" style="padding:0.6rem 2rem;border:none;border-radius:30px;background:#00e676;font-weight:700;cursor:pointer;margin-top:0.5rem;">🔄 Draw</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderSport() {
+            return `
+                <div style="text-align:center;padding:0.5rem 0;">
+                    <div style="background:#0a1a0a;border-radius:16px;padding:1.5rem;border:2px solid #2a8a2a;">
+                        <div style="font-size:4rem;">⚽</div>
+                        <p style="color:#88dd88;font-size:1.1rem;">🏆 Kick the ball!</p>
+                        <button onclick="document.getElementById('sportResult').textContent = ['⚽ Goal! 🎉','😅 Miss!','🔥 Shot on target!','🥅 Saved!'][Math.floor(Math.random()*4)]" style="padding:0.7rem 2.5rem;border:none;border-radius:30px;background:linear-gradient(135deg,#2a8a2a,#1a5a1a);color:#fff;font-weight:700;font-size:1.1rem;cursor:pointer;margin-top:0.5rem;">⚡ Shoot</button>
+                        <div id="sportResult" style="margin-top:0.8rem;font-size:1.2rem;color:#88dd88;min-height:2rem;">Ready!</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        renderGames('slots');
+    </script>
 </body>
 </html>
