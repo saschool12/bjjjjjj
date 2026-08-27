@@ -1,912 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width,initial-scale=1"
->
-
-<title>Jhonny Arcade</title>
-
-<style>
-
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background:
-        radial-gradient(circle at top, #202020, #070707 55%);
-    color: #fff;
-}
-
-header {
-    height: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 25px;
-    border-bottom: 1px solid #292929;
-    background: rgba(5,5,5,.9);
-    position: sticky;
-    top: 0;
-    z-index: 10;
-}
-
-.logo {
-    font-size: 22px;
-    font-weight: 800;
-    letter-spacing: 2px;
-}
-
-nav button {
-    margin-left: 8px;
-}
-
-button {
-    border: 1px solid #3a3a3a;
-    background: #151515;
-    color: white;
-    padding: 11px 16px;
-    border-radius: 9px;
-    cursor: pointer;
-}
-
-button:hover {
-    background: #242424;
-}
-
-.primary {
-    background: white;
-    color: black;
-    border-color: white;
-}
-
-main {
-    width: min(1100px, 92%);
-    margin: auto;
-}
-
-.hero {
-    padding: 70px 0 45px;
-}
-
-.hero h1 {
-    font-size: clamp(40px, 8vw, 75px);
-    margin: 0;
-}
-
-.hero p {
-    color: #aaa;
-    font-size: 18px;
-}
-
-.badge {
-    display: inline-block;
-    border: 1px solid #333;
-    padding: 7px 11px;
-    border-radius: 30px;
-    color: #aaa;
-}
-
-.grid {
-    display: grid;
-    grid-template-columns:
-        repeat(auto-fit,minmax(230px,1fr));
-    gap: 18px;
-}
-
-.card {
-    background: rgba(18,18,18,.9);
-    border: 1px solid #292929;
-    border-radius: 17px;
-    padding: 22px;
-    min-height: 180px;
-}
-
-.card h2 {
-    margin-top: 0;
-}
-
-.game {
-    min-height: 240px;
-}
-
-.slot {
-    font-size: 50px;
-    letter-spacing: 10px;
-    margin: 25px 0;
-}
-
-.result {
-    min-height: 25px;
-    color: #aaa;
-}
-
-input {
-    width: 100%;
-    padding: 13px;
-    margin: 6px 0;
-    background: #080808;
-    color: white;
-    border: 1px solid #333;
-    border-radius: 9px;
-}
-
-.modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    z-index: 20;
-}
-
-.modalBox {
-    width: min(430px,100%);
-    background: #111;
-    border: 1px solid #333;
-    border-radius: 18px;
-    padding: 25px;
-}
-
-.hidden {
-    display: none !important;
-}
-
-.points {
-    padding: 8px 13px;
-    border: 1px solid #333;
-    border-radius: 10px;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-td {
-    padding: 11px;
-    border-bottom: 1px solid #292929;
-}
-
-.notice {
-    margin: 30px 0;
-    padding: 18px;
-    border: 1px solid #333;
-    border-radius: 13px;
-    color: #aaa;
-}
-
-footer {
-    text-align: center;
-    padding: 50px 20px;
-    color: #666;
-}
-
-</style>
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JHONNY Arcade</title>
+<link rel="stylesheet" href="/style.css">
 </head>
-
 <body>
 
 <header>
-
-<div class="logo">
-JHONNY ARCADE
-</div>
-
-<div>
-
-<span id="account">
-Guest
-</span>
-
-<span
-    class="points"
-    id="points"
->
-0 Points
-</span>
-
-<nav style="display:inline">
-
-<button
-    onclick="openLogin()"
->
-Login
-</button>
-
-<button
-    onclick="openRegister()"
->
-Register
-</button>
-
-<button
-    id="logout"
-    class="hidden"
-    onclick="logout()"
->
-Logout
-</button>
-
-</nav>
-
-</div>
-
+  <div class="logo">JHONNY<span>WIN</span></div>
+  <div id="guestBtns">
+    <button onclick="show('login')">Login</button>
+    <button class="gold" onclick="show('register')">Register</button>
+  </div>
+  <div id="userBtns" class="hidden">
+    <span id="hello"></span>
+    <button onclick="logout()">Logout</button>
+  </div>
 </header>
+
+<div class="ticker">
+  ★ Welcome to JHONNY Arcade ★ Virtual points only ★
+</div>
+
+<section class="hero">
+  <div>
+    <small>WELCOME BONUS</small>
+    <h1>PLAY • WIN • HAVE FUN</h1>
+    <p>Arcade games with virtual points.</p>
+    <button class="gold" onclick="show('games')">PLAY NOW</button>
+  </div>
+</section>
+
+<nav class="quick">
+  <button onclick="show('games')">Hot Games</button>
+  <button onclick="show('account')">My Account</button>
+  <button onclick="show('leaderboard')">Leaderboard</button>
+  <button onclick="show('register')">Join Now</button>
+</nav>
 
 <main>
 
-<section class="hero">
-
-<span class="badge">
-ARCADE DEMO
-</span>
-
-<h1>
-Play. Score. Compete.
-</h1>
-
-<p>
-A casino-inspired arcade experience built
-for demonstration and school projects.
-</p>
-
-<button
-    class="primary"
-    onclick="openRegister()"
->
-Create Account
-</button>
-
+<section id="home" class="page active">
+  <h2>🔥 Hot Games</h2>
+  <div class="games">
+    <article onclick="play('Lucky Slots')">
+      <div class="gamepic">777</div>
+      <h3>Lucky Slots</h3>
+      <p>Try your luck with points</p>
+    </article>
+    <article onclick="play('Number Guess')">
+      <div class="gamepic">?</div>
+      <h3>Number Guess</h3>
+      <p>Guess the hidden number</p>
+    </article>
+    <article onclick="play('Reaction')">
+      <div class="gamepic">⚡</div>
+      <h3>Reaction Test</h3>
+      <p>Test your reaction speed</p>
+    </article>
+    <article onclick="play('Memory')">
+      <div class="gamepic">★</div>
+      <h3>Memory Match</h3>
+      <p>Match the symbols</p>
+    </article>
+  </div>
 </section>
 
-<section>
-
-<h2>
-Games
-</h2>
-
-<div class="grid">
-
-<div class="card game">
-
-<h2>
-Lucky Slots
-</h2>
-
-<p>
-Spin the reels and try to match symbols.
-</p>
-
-<div
-    class="slot"
-    id="slots"
->
-● ● ●
-</div>
-
-<button
-    class="primary"
-    onclick="spinSlots()"
->
-SPIN
-</button>
-
-<p
-    class="result"
-    id="slotResult"
->
-</p>
-
-</div>
-
-<div class="card game">
-
-<h2>
-Card Match
-</h2>
-
-<p>
-Remember the hidden card sequence.
-</p>
-
-<button
-    class="primary"
-    onclick="startMemory()"
->
-START
-</button>
-
-<p
-    class="result"
-    id="memoryResult"
->
-</p>
-
-</div>
-
-<div class="card game">
-
-<h2>
-Reaction Test
-</h2>
-
-<p>
-Click when the signal appears.
-</p>
-
-<button
-    class="primary"
-    onclick="reactionStart()"
->
-START
-</button>
-
-<p
-    class="result"
-    id="reactionResult"
->
-</p>
-
-</div>
-
-<div class="card game">
-
-<h2>
-Number Challenge
-</h2>
-
-<p>
-Guess the number from 1 to 10.
-</p>
-
-<input
-    id="guess"
-    type="number"
-    min="1"
-    max="10"
->
-
-<button
-    class="primary"
-    onclick="guessNumber()"
->
-GUESS
-</button>
-
-<p
-    class="result"
-    id="guessResult"
->
-</p>
-
-</div>
-
-</div>
-
+<section id="games" class="page">
+  <h2>🎮 Games</h2>
+  <div class="games">
+    <article onclick="play('Lucky Slots')"><div class="gamepic">777</div><h3>Lucky Slots</h3></article>
+    <article onclick="play('Number Guess')"><div class="gamepic">?</div><h3>Number Guess</h3></article>
+    <article onclick="play('Reaction')"><div class="gamepic">⚡</div><h3>Reaction Test</h3></article>
+    <article onclick="play('Memory')"><div class="gamepic">★</div><h3>Memory Match</h3></article>
+  </div>
 </section>
 
-<section style="margin-top:50px">
-
-<div class="grid">
-
-<div class="card">
-
-<h2>
-Leaderboard
-</h2>
-
-<div id="leaderboard">
-Login to view scores.
-</div>
-
-</div>
-
-<div class="card">
-
-<h2>
-Your Profile
-</h2>
-
-<p>
-Username:
-<strong id="profileName">
-Guest
-</strong>
-</p>
-
-<p>
-Points:
-<strong id="profilePoints">
-0
-</strong>
-</p>
-
-<p>
-Games:
-<strong id="profileGames">
-0
-</strong>
-</p>
-
-</div>
-
-</div>
-
+<section id="login" class="page">
+  <div class="formbox">
+    <h2>Login</h2>
+    <input id="loginUser" placeholder="Username">
+    <input id="loginPass" type="password" placeholder="Password">
+    <button class="gold big" onclick="login()">Login</button>
+    <button class="google" onclick="googleDemo()">G Continue with Google</button>
+    <p>Don't have an account?</p>
+    <button onclick="show('register')">Register</button>
+  </div>
 </section>
 
-<div class="notice">
+<section id="register" class="page">
+  <div class="formbox">
+    <h2>Register</h2>
+    <input id="regUser" placeholder="Username">
+    <input id="regEmail" type="email" placeholder="Email">
+    <input id="regPass" type="password" placeholder="Password">
+    <input id="regConfirm" type="password" placeholder="Confirm password">
+    <button class="gold big" onclick="register()">Register</button>
+    <p>Already have an account?</p>
+    <button onclick="show('login')">Login</button>
+  </div>
+</section>
 
-<strong>Demo Notice</strong>
+<section id="account" class="page">
+  <div class="account">
+    <div class="avatar">J</div>
+    <h2 id="accountName">Guest</h2>
+    <p id="accountEmail"></p>
+    <div class="balance">
+      <small>VIRTUAL POINTS</small>
+      <strong id="balance">0</strong>
+    </div>
+    <button class="gold" onclick="logout()">Logout</button>
+  </div>
+</section>
 
-<br><br>
-
-This is a fictional arcade project.
-Points have no monetary value and cannot
-be deposited, withdrawn, exchanged, or
-redeemed for real-world prizes.
-
-</div>
+<section id="leaderboard" class="page">
+  <h2>🏆 Leaderboard</h2>
+  <div id="leaders"></div>
+</section>
 
 </main>
 
+<div id="modal" class="modal hidden">
+  <div class="modalbox">
+    <button class="close" onclick="closeModal()">×</button>
+    <h2 id="modalTitle"></h2>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
 <footer>
-Jhonny Arcade — Educational Demo
+  JHONNY Arcade • Educational Demo • Virtual points only
 </footer>
 
-<div
-    class="modal hidden"
-    id="authModal"
->
-
-<div class="modalBox">
-
-<h2 id="authTitle">
-Login
-</h2>
-
-<input
-    id="username"
-    placeholder="Username"
->
-
-<input
-    id="email"
-    type="email"
-    placeholder="Email"
->
-
-<input
-    id="password"
-    type="password"
-    placeholder="Password"
->
-
-<button
-    class="primary"
-    onclick="submitAuth()"
->
-Continue
-</button>
-
-<button
-    onclick="googleDemo()"
->
-Continue with Google
-</button>
-
-<button
-    onclick="closeAuth()"
->
-Close
-</button>
-
-<p id="authMessage"></p>
-
-</div>
-
-</div>
-
-<script>
-
-let authMode = "login";
-
-function openLogin() {
-
-    authMode = "login";
-
-    document.getElementById("authTitle")
-        .textContent = "Login";
-
-    document.getElementById("username")
-        .classList.add("hidden");
-
-    document.getElementById("authModal")
-        .classList.remove("hidden");
-}
-
-function openRegister() {
-
-    authMode = "register";
-
-    document.getElementById("authTitle")
-        .textContent = "Create Account";
-
-    document.getElementById("username")
-        .classList.remove("hidden");
-
-    document.getElementById("authModal")
-        .classList.remove("hidden");
-}
-
-function closeAuth() {
-
-    document.getElementById("authModal")
-        .classList.add("hidden");
-}
-
-async function submitAuth() {
-
-    const username =
-        document.getElementById("username").value;
-
-    const email =
-        document.getElementById("email").value;
-
-    const password =
-        document.getElementById("password").value;
-
-    const endpoint =
-        authMode === "register"
-            ? "/api/register"
-            : "/api/login";
-
-    const response = await fetch(endpoint, {
-
-        method: "POST",
-
-        headers: {
-            "Content-Type": "application/json"
-        },
-
-        body: JSON.stringify({
-            username,
-            email,
-            password
-        })
-
-    });
-
-    const data = await response.json();
-
-    document.getElementById("authMessage")
-        .textContent =
-        data.error || "Success";
-
-    if (data.success) {
-
-        closeAuth();
-
-        updateUser(data.user);
-    }
-}
-
-async function logout() {
-
-    await fetch("/api/logout", {
-        method: "POST"
-    });
-
-    location.reload();
-}
-
-async function checkUser() {
-
-    const response =
-        await fetch("/api/me");
-
-    const data =
-        await response.json();
-
-    if (data.loggedIn) {
-        updateUser(data.user);
-    }
-}
-
-function updateUser(user) {
-
-    document.getElementById("account")
-        .textContent = user.username;
-
-    document.getElementById("points")
-        .textContent =
-        user.points + " Points";
-
-    document.getElementById("profileName")
-        .textContent = user.username;
-
-    document.getElementById("profilePoints")
-        .textContent = user.points;
-
-    document.getElementById("profileGames")
-        .textContent = user.games;
-
-    document.getElementById("logout")
-        .classList.remove("hidden");
-
-    loadLeaderboard();
-}
-
-async function award(points) {
-
-    const response =
-        await fetch("/api/game-result", {
-
-            method: "POST",
-
-            headers: {
-                "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify({
-                points
-            })
-
-        });
-
-    const data =
-        await response.json();
-
-    if (data.user) {
-        updateUser(data.user);
-    }
-}
-
-function spinSlots() {
-
-    const symbols =
-        ["●","◆","★","7","■"];
-
-    let count = 0;
-
-    const interval =
-        setInterval(() => {
-
-            const a =
-                symbols[Math.floor(
-                    Math.random()*symbols.length
-                )];
-
-            const b =
-                symbols[Math.floor(
-                    Math.random()*symbols.length
-                )];
-
-            const c =
-                symbols[Math.floor(
-                    Math.random()*symbols.length
-                )];
-
-            document.getElementById("slots")
-                .textContent =
-                `${a} ${b} ${c}`;
-
-            count++;
-
-            if (count >= 12) {
-
-                clearInterval(interval);
-
-                const result =
-                    document.getElementById("slots")
-                        .textContent;
-
-                if (
-                    result.split(" ")[0] ===
-                    result.split(" ")[1] &&
-                    result.split(" ")[1] ===
-                    result.split(" ")[2]
-                ) {
-
-                    document.getElementById("slotResult")
-                        .textContent =
-                        "MATCH! +100 points";
-
-                    award(100);
-
-                } else {
-
-                    document.getElementById("slotResult")
-                        .textContent =
-                        "Try again!";
-                }
-
-            }
-
-        }, 100);
-}
-
-function startMemory() {
-
-    const sequence =
-        Math.floor(Math.random()*9999)
-            .toString()
-            .padStart(4,"0");
-
-    const result =
-        document.getElementById("memoryResult");
-
-    result.textContent =
-        "Remember: " + sequence;
-
-    setTimeout(() => {
-
-        const answer =
-            prompt("Enter the 4 digits:");
-
-        if (answer === sequence) {
-
-            result.textContent =
-                "Correct! +150 points";
-
-            award(150);
-
-        } else {
-
-            result.textContent =
-                "Incorrect.";
-        }
-
-    }, 2500);
-}
-
-let reactionStartTime = 0;
-
-function reactionStart() {
-
-    const result =
-        document.getElementById("reactionResult");
-
-    result.textContent =
-        "Wait...";
-
-    const delay =
-        1000 + Math.random()*3000;
-
-    setTimeout(() => {
-
-        reactionStartTime =
-            performance.now();
-
-        result.textContent =
-            "CLICK NOW!";
-
-        document.body.onclick =
-            reactionClick;
-
-    }, delay);
-}
-
-function reactionClick() {
-
-    if (!reactionStartTime) return;
-
-    const time =
-        Math.round(
-            performance.now() -
-            reactionStartTime
-        );
-
-    document.getElementById("reactionResult")
-        .textContent =
-        `${time} ms`;
-
-    if (time < 400) {
-        award(100);
-    }
-
-    reactionStartTime = 0;
-
-    document.body.onclick = null;
-}
-
-const secretNumber =
-    () => Math.floor(Math.random()*10)+1;
-
-let targetNumber = secretNumber();
-
-function guessNumber() {
-
-    const guess =
-        Number(
-            document.getElementById("guess").value
-        );
-
-    if (guess === targetNumber) {
-
-        document.getElementById("guessResult")
-            .textContent =
-            "Correct! +75 points";
-
-        award(75);
-
-        targetNumber =
-            secretNumber();
-
-    } else {
-
-        document.getElementById("guessResult")
-            .textContent =
-            guess < targetNumber
-                ? "Higher!"
-                : "Lower!";
-    }
-}
-
-async function loadLeaderboard() {
-
-    const response =
-        await fetch("/api/leaderboard");
-
-    const data =
-        await response.json();
-
-    if (!data.length) return;
-
-    document.getElementById("leaderboard")
-        .innerHTML = `
-
-<table>
-
-${data.map(user => `
-
-<tr>
-
-<td>
-#${user.rank}
-</td>
-
-<td>
-${user.username}
-</td>
-
-<td>
-${user.points}
-</td>
-
-</tr>
-
-`).join("")}
-
-</table>
-
-`;
-}
-
-function googleDemo() {
-
-    alert(
-        "Google Sign-In selected.\n\n" +
-        "This demo button is ready to be connected " +
-        "to Google OAuth/Firebase."
-    );
-}
-
-checkUser();
-
-</script>
-
+<script src="/app.js"></script>
 </body>
-
 </html>
