@@ -6,91 +6,21 @@
     <title>Game – JHONNYWIN</title>
     <style>
         * { margin:0; padding:0; box-sizing:border-box; }
-        body {
-            background: #0a0e17;
-            color: #f1f1f1;
-            font-family: 'Segoe UI', Arial, sans-serif;
-            padding: 20px;
-        }
-        .game-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #0f1a2b;
-            padding: 15px 25px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            border: 1px solid #ffd70033;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        .game-header a {
-            color: #ffd700;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        .game-header .balance {
-            font-size: 1.2rem;
-            color: #ffd700;
-        }
-        .game-container {
-            background: #141f2f;
-            border-radius: 16px;
-            padding: 20px;
-            max-width: 700px;
-            margin: 0 auto;
-            border: 1px solid #1e2f42;
-        }
-        .bet-controls {
-            margin: 20px 0;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .bet-controls input {
-            padding: 8px 12px;
-            border-radius: 8px;
-            border: none;
-            background: #1e2f42;
-            color: #fff;
-            width: 120px;
-            font-size: 1rem;
-        }
-        .bet-controls button {
-            padding: 8px 20px;
-            border: none;
-            border-radius: 8px;
-            background: #ffd700;
-            color: #0a0e17;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .bet-controls button:hover { background: #f5a623; }
-        .game-area { min-height: 200px; padding: 15px 0; }
-        .result {
-            margin-top: 15px;
-            text-align: center;
-            font-size: 1.2rem;
-            color: #ffd700;
-            min-height: 2rem;
-        }
-        .back-btn {
-            background: #ffd700;
-            color: #0a0e17;
-            padding: 6px 16px;
-            border-radius: 6px;
-            text-decoration: none;
-        }
-        .back-btn:hover { background: #f5a623; }
-        .game-title { color: #ffd700; text-align:center; margin-bottom:10px; }
-        @media (max-width:600px) {
-            body { padding:10px; }
-            .game-container { padding:15px; }
-            .bet-controls input { width:100px; }
-        }
+        body { background:#0a0e17; color:#f1f1f1; font-family:'Segoe UI',Arial,sans-serif; padding:20px; }
+        .game-header { display:flex; justify-content:space-between; align-items:center; background:#0f1a2b; padding:15px 25px; border-radius:12px; margin-bottom:20px; border:1px solid #ffd70033; flex-wrap:wrap; gap:10px; }
+        .game-header a { color:#ffd700; text-decoration:none; font-weight:bold; }
+        .game-header .balance { font-size:1.2rem; color:#ffd700; }
+        .game-container { background:#141f2f; border-radius:16px; padding:20px; max-width:700px; margin:0 auto; border:1px solid #1e2f42; }
+        .bet-controls { margin:20px 0; display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:center; }
+        .bet-controls input { padding:8px 12px; border-radius:8px; border:none; background:#1e2f42; color:#fff; width:120px; font-size:1rem; }
+        .bet-controls button { padding:8px 20px; border:none; border-radius:8px; background:#ffd700; color:#0a0e17; font-weight:bold; cursor:pointer; transition:0.2s; }
+        .bet-controls button:hover { background:#f5a623; }
+        .game-area { min-height:200px; padding:15px 0; }
+        .result { margin-top:15px; text-align:center; font-size:1.2rem; color:#ffd700; min-height:2rem; }
+        .back-btn { background:#ffd700; color:#0a0e17; padding:6px 16px; border-radius:6px; text-decoration:none; }
+        .back-btn:hover { background:#f5a623; }
+        .game-title { color:#ffd700; text-align:center; margin-bottom:10px; }
+        @media (max-width:600px) { body { padding:10px; } .game-container { padding:15px; } .bet-controls input { width:100px; } }
     </style>
 </head>
 <body>
@@ -286,7 +216,7 @@
         let canFlip = true;
 
         function renderMemory() {
-            // Shuffle and create cards
+            // Shuffle
             let deck = [...emojis, ...emojis];
             for (let i = deck.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -358,11 +288,11 @@
         function playGame(type, bet) {
             switch(type) {
                 case 'slot': playSlot(bet); break;
-                case 'guess': // handled separately; we already deducted bet inside guess
+                case 'guess': // handled separately
                     break;
-                case 'reaction': // handled separately
+                case 'reaction':
                     break;
-                case 'memory': // handled separately
+                case 'memory':
                     break;
                 default: resultDiv.textContent = '❌ Unknown game.';
             }
