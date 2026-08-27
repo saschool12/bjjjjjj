@@ -7,7 +7,7 @@
     <style>
         * { margin:0; padding:0; box-sizing:border-box; }
         body { background:#0b0b0f; color:#f1f1f1; font-family:'Segoe UI',Arial,sans-serif; padding:20px; }
-        .game-header { display:flex; justify-content:space-between; align-items:center; background:#111; padding:15px 25px; border-radius:12px; margin-bottom:20px; }
+        .game-header { display:flex; justify-content:space-between; align-items:center; background:#111; padding:15px 25px; border-radius:12px; margin-bottom:20px; flex-wrap:wrap; gap:10px; }
         .game-header a { color:#00e676; text-decoration:none; font-weight:bold; }
         .game-header .balance { font-size:1.2rem; color:#ffd700; }
         .game-container { background:#16161d; border-radius:16px; padding:20px; max-width:700px; margin:0 auto; }
@@ -15,10 +15,11 @@
         .bet-controls input { padding:8px 12px; border-radius:8px; border:none; background:#2a2a3a; color:#fff; width:120px; font-size:1rem; }
         .bet-controls button { padding:8px 20px; border:none; border-radius:8px; background:#00e676; color:#000; font-weight:bold; cursor:pointer; transition:0.2s; }
         .bet-controls button:hover { background:#1de9b6; }
-        .game-area { min-height:200px; }
-        .result { margin-top:15px; text-align:center; font-size:1.2rem; color:#00e676; }
+        .game-area { min-height:200px; padding:15px 0; }
+        .result { margin-top:15px; text-align:center; font-size:1.2rem; color:#00e676; min-height:2rem; }
         .back-btn { background:#00e676; color:#000; padding:6px 16px; border-radius:6px; text-decoration:none; }
         .back-btn:hover { background:#1de9b6; }
+        .game-title { color:#00e676; text-align:center; margin-bottom:10px; }
         @media (max-width:600px) {
             body { padding:10px; }
             .game-container { padding:15px; }
@@ -33,14 +34,14 @@
     </div>
 
     <div class="game-container">
-        <h2 id="gameTitle" style="color:#00e676; text-align:center;">Game</h2>
+        <h2 class="game-title" id="gameTitle">🎮 Game</h2>
         <div class="bet-controls">
             <label>Bet:</label>
             <input type="number" id="betAmount" value="10" min="1" step="1" />
             <button id="betButton">Place Bet & Play</button>
         </div>
         <div id="gameArea" class="game-area"></div>
-        <div id="resultMessage" class="result"></div>
+        <div id="resultMessage" class="result">Ready to play!</div>
     </div>
 
     <script>
@@ -51,24 +52,30 @@
 
         // ---------- BALANCE ----------
         let balance = parseInt(localStorage.getItem('slotBalance')) || 100;
-        document.getElementById('balanceDisplay').textContent = balance;
+        const balanceSpan = document.getElementById('balanceDisplay');
+        const resultDiv = document.getElementById('resultMessage');
 
         function updateBalanceUI() {
-            document.getElementById('balanceDisplay').textContent = balance;
+            balanceSpan.textContent = balance;
             localStorage.setItem('slotBalance', balance);
         }
+        updateBalanceUI();
 
         // ---------- BET BUTTON ----------
         document.getElementById('betButton').addEventListener('click', function() {
             const bet = parseInt(document.getElementById('betAmount').value);
             if (isNaN(bet) || bet < 1) {
-                document.getElementById('resultMessage').textContent = '⚠️ Enter a valid bet amount.';
+                resultDiv.textContent = '⚠️ Enter a valid bet amount.';
                 return;
             }
             if (bet > balance) {
-                document.getElementById('resultMessage').textContent = '❌ Insufficient balance!';
+                resultDiv.textContent = '❌ Insufficient balance!';
                 return;
             }
+            // Deduct bet immediately, game will add winnings
+            balance -= bet;
+            updateBalanceUI();
+            // Call game function
             playGame(gameType, bet);
         });
 
@@ -79,7 +86,7 @@
                 case 'fish': return renderFish();
                 case 'poker': return renderPoker();
                 case 'sport': return renderSport();
-                default: return '<p style="color:#8899bb;text-align:center;padding:2rem;">Game coming soon!</p>';
+                default: return '<p style="color:#8899bb;text-align:center;padding:2rem;">Game not implemented.</p>';
             }
         }
 
@@ -118,14 +125,13 @@
                     else if (f1===f2 || f2===f3 || f1===f3) { win = bet * 2; }
                     else { win = 0; }
 
-                    balance = balance - bet + win;
+                    balance += win;
                     updateBalanceUI();
                     if (win > 0) {
                         resultDiv.textContent = `🎉 You won ${win} coins! (bet: ${bet})`;
                     } else {
                         resultDiv.textContent = `😞 You lost ${bet} coins. Try again!`;
                     }
-                    document.getElementById('balanceDisplay').textContent = balance;
                 }
             }, 80);
         }
@@ -150,10 +156,9 @@
             else if (size > 0.6) { win = bet * 2; msg = `🎣 Caught ${fish}! +${win} coins!`; }
             else { win = 0; msg = `🐟 Small ${fish}... you lost ${bet} coins.`; }
 
-            balance = balance - bet + win;
+            balance += win;
             updateBalanceUI();
-            document.getElementById('resultMessage').textContent = msg + ` (bet: ${bet})`;
-            document.getElementById('balanceDisplay').textContent = balance;
+            resultDiv.textContent = msg + ` (bet: ${bet})`;
             fishCount += (win > 0 ? 1 : 0);
             localStorage.setItem('fishCount', fishCount);
         }
@@ -179,10 +184,9 @@
             let win = 0;
             if (value > 7) { win = bet * 2; }
             else { win = 0; }
-            balance = balance - bet + win;
+            balance += win;
             updateBalanceUI();
-            document.getElementById('resultMessage').textContent = win > 0 ? `🎉 You won ${win} coins!` : `😞 You lost ${bet} coins.`;
-            document.getElementById('balanceDisplay').textContent = balance;
+            resultDiv.textContent = win > 0 ? `🎉 You won ${win} coins!` : `😞 You lost ${bet} coins.`;
         }
 
         // ----- SPORT -----
@@ -200,12 +204,11 @@
             document.getElementById('sportResult').textContent = result;
             let win = 0;
             if (result.includes('Goal')) win = bet * 3;
-            else if (result.includes('on target')) win = bet * 1.5;
+            else if (result.includes('on target')) win = Math.floor(bet * 1.5);
             else win = 0;
-            balance = balance - bet + win;
+            balance += win;
             updateBalanceUI();
-            document.getElementById('resultMessage').textContent = win > 0 ? `🎉 You won ${win} coins!` : `😞 You lost ${bet} coins.`;
-            document.getElementById('balanceDisplay').textContent = balance;
+            resultDiv.textContent = win > 0 ? `🎉 You won ${win} coins!` : `😞 You lost ${bet} coins.`;
         }
 
         // ---------- MAIN PLAY FUNCTION ----------
@@ -215,7 +218,7 @@
                 case 'fish': playFish(bet); break;
                 case 'poker': playPoker(bet); break;
                 case 'sport': playSport(bet); break;
-                default: document.getElementById('resultMessage').textContent = 'Game not implemented.';
+                default: resultDiv.textContent = '❌ Unknown game type.';
             }
         }
 
@@ -223,8 +226,9 @@
         const gameName = gameId ? gameId.replace(/-/g,' ').toUpperCase() : 'Game';
         document.getElementById('gameTitle').textContent = '🎮 ' + gameName;
         document.getElementById('gameArea').innerHTML = getGameHTML(gameType);
-        document.getElementById('balanceDisplay').textContent = balance;
+        resultDiv.textContent = 'Place your bet and hit Play!';
 
+        // Enter key on bet input triggers play
         document.getElementById('betAmount').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') document.getElementById('betButton').click();
         });

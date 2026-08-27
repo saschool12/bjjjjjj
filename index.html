@@ -51,7 +51,6 @@
             <a href="#games">Games</a>
             <a href="#promo">Promotions</a>
             <a href="#support">Support</a>
-            <!-- Auth links will be injected by JS -->
         </nav>
     </header>
 
@@ -82,9 +81,8 @@
     </footer>
 
     <script>
-        // -------- AUTH STATE --------
+        // Auth
         const currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
-
         function updateNav() {
             const nav = document.getElementById('navLinks');
             if (currentUser) {
@@ -107,15 +105,10 @@
                 `;
             }
         }
-
-        window.logout = function() {
-            localStorage.removeItem('currentUser');
-            location.reload();
-        };
-
+        window.logout = function() { localStorage.removeItem('currentUser'); location.reload(); };
         updateNav();
 
-        // -------- GAME DATA (same as before) --------
+        // GAME DATA
         const GAME_DATA = {
             slots: [
                 { id:'super-ace', name:'Super Ace', sub:'JILI', icon:'🃏', type:'slot' },
@@ -149,12 +142,11 @@
         };
 
         let currentCategory = 'slots';
-
         function renderGames(category) {
             const grid = document.getElementById('game-grid');
             const games = GAME_DATA[category] || [];
             grid.innerHTML = games.map(g => `
-                <a href="game.html?id=${g.id}&type=${g.type}" class="game-card" data-game="${g.id}" data-type="${g.type}">
+                <a href="game.html?id=${encodeURIComponent(g.id)}&type=${encodeURIComponent(g.type)}" class="game-card">
                     <div class="icon">${g.icon}</div>
                     <div class="name">${g.name}</div>
                     <div class="sub">${g.sub}</div>
@@ -162,7 +154,6 @@
                 </a>
             `).join('');
         }
-
         document.querySelectorAll('.cat-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
@@ -171,7 +162,6 @@
                 renderGames(currentCategory);
             });
         });
-
         renderGames('slots');
     </script>
 </body>
