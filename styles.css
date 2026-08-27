@@ -1,0 +1,173 @@
+/* General */
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #0b0b0f;
+  color: #f1f1f1;
+}
+
+h1, h2, h3 { margin: 0 0 15px; }
+
+/* Header */
+header {
+  background: linear-gradient(90deg, #111, #222);
+  padding: 15px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+header .logo {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #00e676;
+}
+nav a {
+  color: #ddd;
+  text-decoration: none;
+  margin: 0 12px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+nav a:hover { color: #00e676; }
+.btn {
+  background: #00e676;
+  color: #000;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+/* Banner */
+.banner {
+  background: url("https://images.unsplash.com/photo-1606813903274-6d49b4b67aef?auto=format&fit=crop&w=1350&q=80") center/cover;
+  height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  color: white;
+}
+.banner h1 {
+  font-size: 2.5rem;
+  text-shadow: 0 4px 8px rgba(0,0,0,0.6);
+}
+
+/* Sections */
+.section {
+  padding: 40px 20px;
+  max-width: 1100px;
+  margin: auto;
+}
+.section h2 {
+  text-align: center;
+  color: #00e676;
+  margin-bottom: 30px;
+}
+
+/* Cards */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+.card {
+  background: #16161d;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.5);
+  transition: transform 0.2s;
+}
+.card:hover { transform: translateY(-6px); }
+.card img { width: 60px; margin-bottom: 12px; }
+
+/* Matches */
+.match-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #16161d;
+  padding: 15px;
+  margin: 15px 0;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+}
+.odds-box span {
+  margin-right: 15px;
+  color: #ffca28;
+  font-weight: bold;
+}
+.odds-box button {
+  padding: 6px 12px;
+  background: #00e676;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.odds-box button:hover { background: #1de9b6; }
+
+/* Promo Slider */
+.slider {
+  display: flex;
+  overflow-x: auto;
+  gap: 15px;
+  padding: 10px;
+  scrollbar-width: none;
+}
+.promo {
+  min-width: 200px;
+  background: #222;
+  padding: 20px;
+  border-radius: 10px;
+  flex: 0 0 auto;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+  text-align: center;
+}
+
+/* Testimonials */
+.testimonials { padding: 40px; text-align: center; }
+.testimonials blockquote {
+  background: #16161d;
+  padding: 20px;
+  margin: 10px auto;
+  border-radius: 10px;
+  max-width: 600px;
+  font-style: italic;
+}
+
+/* Bet Slip */
+.bet-slip {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  width: 220px;
+  background: #16161d;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+}
+.bet-slip h3 { margin: 0 0 10px; color: #00e676; }
+.bet-slip ul { list-style: none; padding: 0; margin: 0 0 10px; font-size: 0.9rem; }
+.bet-slip li { background: #222; margin-bottom: 5px; padding: 5px; border-radius: 6px; }
+#placeBetBtn {
+  width: 100%; padding: 8px; background: #00e676; color: #000;
+  border: none; border-radius: 6px; font-weight: bold; cursor: pointer;
+}
+#placeBetBtn:hover { background: #1de9b6; }
+
+/* Footer */
+footer {
+  background: #111;
+  color: #bbb;
+  text-align: center;
+  padding: 20px;
+  margin-top: 40px;
+  font-size: 0.9rem;
+}
+footer a { color: #00e676; text-decoration: none; margin: 0 8px; }
+footer a:hover { text-decoration: underline; }

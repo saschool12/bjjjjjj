@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Luckline — Casino</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="scripts.js" defer></script>
+  <style>
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: #16161d;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.5);
+      transition: transform 0.2s;
+    }
+    .card:hover { transform: translateY(-6px); }
+    .card img { width: 60px; margin-bottom: 12px; }
+    .card button {
+      margin-top: 10px;
+      padding: 6px 12px;
+      background: #00e676;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .card button:hover { background: #1de9b6; }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">🎲 Luckline</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="sports.html">Sports</a>
+      <a href="live.html">Live</a>
+      <a href="casino.html">Casino</a>
+      <a href="promotions.html">Promotions</a>
+      <a href="support.html">Support</a>
+      <a class="btn" href="login.html">Login</a>
+    </nav>
+  </header>
+
+  <!-- Banner -->
+  <section class="banner" style="background:url('https://images.unsplash.com/photo-1530051657130-8c2b7b5b4fda?auto=format&fit=crop&w=1350&q=80') center/cover;">
+  <h1>Luckline Casino</h1>
+  <p>Slots, Poker, Roulette & more</p>
+</section>
+
+
+  <!-- Casino Games -->
+  <section class="section">
+    <h2>Our Casino Games (25)</h2>
+    <div class="cards">
+
+      <div class="card"><img src="https://cdn-icons-png.flaticon.com/512/3081/3081981.png"><h3>Roulette</h3><button onclick="openBetModal('Roulette')">Bet Now</button></div>
+      <div class="card"><img src="https://cdn-icons-png.flaticon.com/512/744/744502.png"><h3>Blackjack</h3><button onclick="openBetModal('Blackjack')">Bet Now</button></div>
+      <div class="card"><img src="https://cdn-icons-png.flaticon.com/512/3096/3096939.png"><h3>Poker</h3><button onclick="openBetModal('Poker')">Bet Now</button></div>
+      <div class="card"><img src="https://cdn-icons-png.flaticon.com/512/3096/3096942.png"><h3>Slots</h3><button onclick="openBetModal('Slots')">Bet Now</button></div>
+      <div class="card"><img src="https://cdn-icons-png.flaticon.com/512/1161/1161388.png"><h3>Baccarat</h3><button onclick="openBetModal('Baccarat')">Bet Now</button></div>
+      <div class="card"><img src="https://cdn-icons-png.flaticon.com/512/2932/2932492.png"><h3>Craps</h3><button onclick="openBetModal('Craps')">Bet Now</button></div>
+      <div class="card"><img src="https://cdn-icons-png.flaticon.com/512/3096/3096995.png"><h3>Teen Patti</h3><button onclick="openBetModal('Teen Patti')">Bet Now</button></div>
+      <div class="card"><img src="https://cdn-icons-png.flaticon.com/512/3096/3097000.png"><h3>Andar Bahar</h3><button onclick="openBetModal('Andar Bahar')">Bet Now</button></div>
+      <div class="card"><img src="https://cdn-icons-png.flaticon.com/512/616/616408.png"><h3>Dragon Tiger</h3><button onclick="openBetModal('Dragon Tiger')">Bet Now</button></div>
+      <div class="card"><img src="https://cdn-icons-png.flaticon.com/512/3081/3081974.png"><h3>Video Poker</h3><button onclick="openBetModal('Video Poker')">Bet Now</button></div>
+      <div class="card"><img src="https://cdn-icons-png.flaticon.com/512/3096/3097009.png"><h3>Keno</h3><button onclick="openBetModal('Keno')">Bet Now</button></div>
+      <div class="card"><img src="https://cdn-icons-png.flaticon.com/512/3096/3096999.png"><h3>Bingo</h3><button onclick="openBetModal('Bingo')">Bet Now</button></div>
+      <div class="card"><img src="https://cdn-icons-png.flaticon.com/512/1161/1161392.png"><h3>Scratch Cards</h3><button onclick="openBetModal('Scratch Cards')">Bet Now</button></div>
+      <div class="card"><img src="https://cdn-icons-png.flaticon.com/512/3081/3081987.png"><h3>Wheel of Fortune</h3><button onclick="openBetModal('Wheel of Fortune')">Bet Now</button></div>
+      <div class="card"><img src="https://cdn-icons-png.flaticon.com/512/616/616490.png"><h3>Mahjong</h3><button onclick="openBetModal('Mahjong')">Bet Now</button></div>
+
+      <!-- Extra 10 Games -->
+      <div class="card"><img src="https://cdn-icons-png.flaticon.com/512/616/616412.png"><h3>Rummy</h3><button onclick="openBetModal('Rummy')">Bet Now</button></div>
+      <div class="card"><img src="https://cdn-icons-png.flaticon.com/512/616/616422.png"><h3>Sic Bo</h3><button onclick="openBetModal('Sic Bo')">Bet Now</button></div>
+      <div class="card"><img src="https://cdn-icons-png.flaticon.com/512/616/616443.png"><h3>Mini Roulette</h3><button onclick="openBetModal('Mini Roulette')">Bet Now</button></div>
+      <div class="card"><img src="https://cdn-icons-png.flaticon.com/512/616/616450.png"><h3>Casino Hold’em</h3><button onclick="openBetModal('Casino Hold’em')">Bet Now</button></div>
+      <div class="card"><img src="https://cdn-icons-png.flaticon.com/512/616/616471.png"><h3>Stud Poker</h3><button onclick="openBetModal('Stud Poker')">Bet Now</button></div>
+      <div class="card"><img src="https://cdn-icons-png.flaticon.com/512/616/616484.png"><h3>Pai Gow</h3><button onclick="openBetModal('Pai Gow')">Bet Now</button></div>
+      <div class="card"><img src="https://cdn-icons-png.flaticon.com/512/616/616489.png"><h3>Red Dog</h3><button onclick="openBetModal('Red Dog')">Bet Now</button></div>
+      <div class="card"><img src="https://cdn-icons-png.flaticon.com/512/616/616487.png"><h3>Caribbean Stud</h3><button onclick="openBetModal('Caribbean Stud')">Bet Now</button></div>
+      <div class="card"><img src="https://cdn-icons-png.flaticon.com/512/616/616441.png"><h3>Casino War</h3><button onclick="openBetModal('Casino War')">Bet Now</button></div>
+      <div class="card"><img src="https://cdn-icons-png.flaticon.com/512/616/616473.png"><h3>Lucky 7</h3><button onclick="openBetModal('Lucky 7')">Bet Now</button></div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Luckline | <a href="terms.html">Terms</a> | <a href="support.html">Support</a></p>
+  </footer>
+
+  <!-- Bet Slip -->
+  <div class="bet-slip" id="betSlip">
+    <h3>My Bet Slip</h3>
+    <ul id="slipList"></ul>
+    <button id="placeBetBtn">Place Bet</button>
+  </div>
+
+  <!-- Bet Modal -->
+  <div id="betModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h3>Place Your Bet</h3>
+      <label for="gameSelect">Choose Game:</label>
+      <select id="gameSelect">
+        <option>Roulette</option><option>Blackjack</option><option>Poker</option>
+        <option>Slots</option><option>Baccarat</option><option>Craps</option>
+        <option>Teen Patti</option><option>Andar Bahar</option><option>Dragon Tiger</option>
+        <option>Video Poker</option><option>Keno</option><option>Bingo</option>
+        <option>Scratch Cards</option><option>Wheel of Fortune</option><option>Mahjong</option>
+        <option>Rummy</option><option>Sic Bo</option><option>Mini Roulette</option>
+        <option>Casino Hold’em</option><option>Stud Poker</option><option>Pai Gow</option>
+        <option>Red Dog</option><option>Caribbean Stud</option><option>Casino War</option>
+        <option>Lucky 7</option>
+      </select>
+
+      <label for="betAmount">Enter Amount:</label>
+      <input type="number" id="betAmount" placeholder="Enter ₹ amount">
+
+      <button onclick="confirmBet()">Confirm Bet</button>
+    </div>
+  </div>
+
+</body>
+</html>

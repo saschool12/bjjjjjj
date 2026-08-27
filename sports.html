@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Luckline — Sports</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="scripts.js" defer></script>
+</head>
+<body>
+  <header>
+    <div class="logo">🎲 Luckline</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="sports.html">Sports</a>
+      <a href="live.html">Live</a>
+      <a href="casino.html">Casino</a>
+      <a href="promotions.html">Promotions</a>
+      <a href="support.html">Support</a>
+      <a class="btn" href="login.html">Login</a>
+    </nav>
+  </header>
+ <section class="banner" style="background:url('https://images.unsplash.com/photo-1521412644187-c49fa049e84d?auto=format&fit=crop&w=1350&q=80') center/cover;">
+  <h1>Sportsbook</h1>
+  <p>Cricket, Football, Tennis & more</p>
+</section>
+
+  <section class="section">
+    <h2>Upcoming Matches (25)</h2>
+
+    <!-- 25 Matches -->
+    <div class="match-card"><div><h3>India vs Pakistan (Cricket)</h3><p>Delhi</p></div><div class="odds-box"><span>1.85</span><span>2.10</span><button onclick="openBetModal('India vs Pakistan')">Bet Now</button></div></div>
+    <div class="match-card"><div><h3>Barcelona vs Chelsea (Football)</h3><p>London</p></div><div class="odds-box"><span>1.95</span><span>2.30</span><button onclick="openBetModal('Barcelona vs Chelsea')">Bet Now</button></div></div>
+    <div class="match-card"><div><h3>Australia vs England (Cricket)</h3><p>Sydney</p></div><div class="odds-box"><span>2.00</span><span>1.85</span><button onclick="openBetModal('Australia vs England')">Bet Now</button></div></div>
+    <div class="match-card"><div><h3>Real Madrid vs PSG (Football)</h3><p>Paris</p></div><div class="odds-box"><span>1.75</span><span>2.20</span><button onclick="openBetModal('Real Madrid vs PSG')">Bet Now</button></div></div>
+    <div class="match-card"><div><h3>Djokovic vs Nadal (Tennis)</h3><p>Wimbledon</p></div><div class="odds-box"><span>1.50</span><span>2.50</span><button onclick="openBetModal('Djokovic vs Nadal')">Bet Now</button></div></div>
+    <div class="match-card"><div><h3>Lakers vs Celtics (Basketball)</h3><p>LA</p></div><div class="odds-box"><span>1.90</span><span>2.00</span><button onclick="openBetModal('Lakers vs Celtics')">Bet Now</button></div></div>
+    <div class="match-card"><div><h3>India vs Australia (Hockey)</h3><p>Mumbai</p></div><div class="odds-box"><span>2.00</span><span>1.90</span><button onclick="openBetModal('India vs Australia')">Bet Now</button></div></div>
+    <div class="match-card"><div><h3>CSK vs MI (Cricket IPL)</h3><p>Chennai</p></div><div class="odds-box"><span>1.70</span><span>2.20</span><button onclick="openBetModal('CSK vs MI')">Bet Now</button></div></div>
+    <div class="match-card"><div><h3>Argentina vs Brazil (Football)</h3><p>Rio</p></div><div class="odds-box"><span>2.05</span><span>1.85</span><button onclick="openBetModal('Argentina vs Brazil')">Bet Now</button></div></div>
+    <div class="match-card"><div><h3>Federer vs Murray (Tennis)</h3><p>Melbourne</p></div><div class="odds-box"><span>1.65</span><span>2.30</span><button onclick="openBetModal('Federer vs Murray')">Bet Now</button></div></div>
+    <div class="match-card"><div><h3>Chicago Bulls vs Miami Heat</h3><p>Chicago</p></div><div class="odds-box"><span>1.80</span><span>2.15</span><button onclick="openBetModal('Chicago vs Miami')">Bet Now</button></div></div>
+    <div class="match-card"><div><h3>New Zealand vs SA (Cricket)</h3><p>Auckland</p></div><div class="odds-box"><span>1.95</span><span>1.95</span><button onclick="openBetModal('NZ vs SA')">Bet Now</button></div></div>
+    <div class="match-card"><div><h3>France vs Germany (Football)</h3><p>Berlin</p></div><div class="odds-box"><span>2.00</span><span>1.85</span><button onclick="openBetModal('France vs Germany')">Bet Now</button></div></div>
+    <div class="match-card"><div><h3>Sharapova vs Serena (Tennis)</h3><p>US Open</p></div><div class="odds-box"><span>2.20</span><span>1.65</span><button onclick="openBetModal('Sharapova vs Serena')">Bet Now</button></div></div>
+    <div class="match-card"><div><h3>Pakistan vs Sri Lanka</h3><p>Karachi</p></div><div class="odds-box"><span>1.85</span><span>2.10</span><button onclick="openBetModal('Pakistan vs SL')">Bet Now</button></div></div>
+    <div class="match-card"><div><h3>Juventus vs Milan (Football)</h3><p>Rome</p></div><div class="odds-box"><span>1.75</span><span>2.05</span><button onclick="openBetModal('Juventus vs Milan')">Bet Now</button></div></div>
+    <div class="match-card"><div><h3>Warriors vs Nets</h3><p>NY</p></div><div class="odds-box"><span>2.00</span><span>1.90</span><button onclick="openBetModal('Warriors vs Nets')">Bet Now</button></div></div>
+    <div class="match-card"><div><h3>Bangladesh vs Afghanistan</h3><p>Dhaka</p></div><div class="odds-box"><span>1.95</span><span>1.95</span><button onclick="openBetModal('Bangladesh vs Afghanistan')">Bet Now</button></div></div>
+    <div class="match-card"><div><h3>Portugal vs Spain</h3><p>Madrid</p></div><div class="odds-box"><span>2.05</span><span>1.85</span><button onclick="openBetModal('Portugal vs Spain')">Bet Now</button></div></div>
+    <div class="match-card"><div><h3>Nadal vs Thiem</h3><p>Paris</p></div><div class="odds-box"><span>1.60</span><span>2.40</span><button onclick="openBetModal('Nadal vs Thiem')">Bet Now</button></div></div>
+    <div class="match-card"><div><h3>Knicks vs Lakers</h3><p>LA</p></div><div class="odds-box"><span>1.85</span><span>2.10</span><button onclick="openBetModal('Knicks vs Lakers')">Bet Now</button></div></div>
+    <div class="match-card"><div><h3>West Indies vs Zimbabwe</h3><p>Barbados</p></div><div class="odds-box"><span>1.90</span><span>2.00</span><button onclick="openBetModal('WI vs Zimbabwe')">Bet Now</button></div></div>
+    <div class="match-card"><div><h3>Mexico vs USA (Football)</h3><p>Mexico City</p></div><div class="odds-box"><span>1.95</span><span>1.95</span><button onclick="openBetModal('Mexico vs USA')">Bet Now</button></div></div>
+    <div class="match-card"><div><h3>Kohli vs Rohit (Exhibition)</h3><p>Bangalore</p></div><div class="odds-box"><span>1.80</span><span>2.10</span><button onclick="openBetModal('Kohli vs Rohit')">Bet Now</button></div></div>
+    <div class="match-card"><div><h3>Germany vs Italy</h3><p>Rome</p></div><div class="odds-box"><span>2.00</span><span>1.85</span><button onclick="openBetModal('Germany vs Italy')">Bet Now</button></div></div>
+
+  </section>
+</body>
+</html>

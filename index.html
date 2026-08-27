@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Luckline — Home</title>
+    <style>
+        /* General */
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #0b0b0f;
+            color: #f1f1f1;
+        }
+        h1, h2, h3 { margin: 0 0 15px; }
+
+        /* Header */
+        header {
+            background: linear-gradient(90deg, #111, #222);
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+
+            z-index: 10;
+        }
+        header .logo {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #00e676;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        header .logo img {
+            height: 28px;
+            width: 28px;
+        }
+        nav a {
+            color: #ddd;
+            text-decoration: none;
+            margin: 0 12px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        nav a:hover { color: #00e676; }
+        .btn {
+            background: #00e676;
+            color: #000;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+        
+        /* Banner */
+        .banner {
+            background: url('https://images.pexels.com/photos/1871508/pexels-photo-1871508.jpeg') center/cover no-repeat;
+            height: 420px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.8);
+            text-align: center;
+        }
+        .banner h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+        .banner p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        .banner .btn {
+            background: #00e676;
+            padding: 12px 24px;
+            border-radius: 8px;
+            color: #000;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .banner .btn:hover { background: #1de9b6; }
+        
+        /* Hero CTA */
+        .hero-cta {
+            text-align: center;
+            padding: 40px 20px;
+            background: #111;
+            border-radius: 12px;
+            margin: 40px auto;
+            max-width: 800px;
+        }
+        .hero-cta h2 { color: #00e676; }
+        .cta-btn {
+            display: inline-block;
+            background: #00e676;
+            color: #000;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .cta-btn:hover { background: #1de9b6; }
+        
+        /* Sections */
+        .section {
+            padding: 40px 20px;
+            max-width: 1100px;
+            margin: auto;
+        }
+        .section h2 {
+            text-align: center;
+            color: #00e676;
+            margin-bottom: 30px;
+        }
+        
+        /* Cards */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background: #16161d;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.5);
+            transition: transform 0.2s;
+        }
+        .card:hover { transform: translateY(-6px); }
+        .card img { 
+            width: 60px; 
+            margin-bottom: 12px;
+            border-radius: 10px;
+        }
+        
+        /* Matches */
+        .match-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #16161d;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        }
+        .odds-box span {
+            margin-right: 15px;
+            color: #ffca28;
+            font-weight: bold;
+        }
+        .odds-box button {
+            padding: 6px 12px;
+            background: #00e676;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .odds-box button:hover { background: #1de9b6; }
+        .match-img {
+            width: 100%;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        /* Promo Slider */
+        .slider {
+            display: flex;
+            overflow-x: auto;
+            gap: 15px;
+            padding: 10px;
+            scrollbar-width: none;
+        }
+        .promo {
+            min-width: 200px;
+            background: #222;
+            padding: 20px;
+            border-radius: 10px;
+            flex: 0 0 auto;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+        .promo img {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+        
+        /* Testimonials */
+        .testimonials { padding: 40px; text-align: center; }
+        .testimonials blockquote {
+            background: #16161d;
+            padding: 20px;
+            margin: 10px auto;
+            border-radius: 10px;
+            max-width: 600px;
+            font-style: italic;
+        }
+        
+        /* Bet Slip */
+        .bet-slip {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            width: 220px;
+            background: #16161d;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+        }
+        .bet-slip h3 { margin: 0 0 10px; color: #00e676; }
+        .bet-slip ul { list-style: none; padding: 0; margin: 0 0 10px; font-size: 0.9rem; }
+        .bet-slip li { background: #222; margin-bottom: 5px; padding: 5px; border-radius: 6px; }
+        #placeBetBtn {
+            width: 100%; padding: 8px; background: #00e676; color: #000;
+            border: none; border-radius: 6px; font-weight: bold; cursor: pointer;
+        }
+        #placeBetBtn:hover { background: #1de9b6; }
+
+        /* Footer */
+        footer {
+            background: #111;
+            color: #bbb;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            font-size: 0.9rem;
+        }
+        footer a { color: #00e676; text-decoration: none; margin: 0 8px; }
+        footer a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <img src="https://cdn-icons-png.flaticon.com/512/3082/3082031.png" alt="logo">
+            Luckline
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="sports.html">Sports</a>
+            <a href="live.html">Live</a>
+            <a href="bet.html">Bet</a>
+            <a href="casino.html">Casino</a>
+            <a href="promotions.html">Promotions</a>
+            <a href="support.html">Support</a>
+            <a class="btn" href="login.html">Login</a>
+        </nav>
+    </header>
+
+    <section class="banner">
+        <h1>Welcome to Luckline</h1>
+        <p>Bet smart. Play safe. Win big.</p>
+        <a href="register.html" class="btn">Register Now</a>
+    </section>
+    
+    <section class="hero-cta">
+        <h2>Join Luckline Today</h2>
+        <p>Get a 100% Welcome Bonus up to ₹10,000!</p>
+        <a href="register.html" class="cta-btn">Register Now</a>
+    </section>
+
+    <section class="section">
+        <h2>Our Features</h2>
+        <div class="cards">
+            <div class="card">
+                <img src="https://cdn-icons-png.flaticon.com/512/11496/11496884.png" alt="Poker cards icon">
+                <h3>Card Games</h3>
+                <p>Poker, Blackjack, Rummy & more.</p>
+            </div>
+            <div class="card">
+                <img src="https://cdn-icons-png.flaticon.com/512/10777/10777508.png" alt="Coin icon">
+                <h3>Jackpots</h3>
+                <p>Progressive jackpots with huge payouts.</p>
+            </div>
+            <div class="card">
+                <img src="https://cdn-icons-png.flaticon.com/512/11497/11497042.png" alt="Casino chip icon">
+                <h3>Live Casino</h3>
+                <p>Real dealers, real-time action.</p>
+            </div>
+            <div class="card">
+                <img src="https://cdn-icons-png.flaticon.com/512/10053/10053457.png" alt="Diamond icon">
+                <h3>High Stakes</h3>
+                <p>Play with high limits & win big.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>Featured Games</h2>
+        <div class="match-card">
+            <div>
+                <h3>Texas Hold'em</h3>
+                <p>Starts in 10 minutes • Table 1</p>
+            </div>
+            <div class="odds-box">
+                <span>Join Now</span>
+                <button onclick="addToSlip('Texas Hold\'em', 'Join')">Play</button>
+            </div>
+        </div>
+        <div class="match-card">
+            <div>
+                <h3>Blackjack Live</h3>
+                <p>Starts in 5 minutes • Live Table</p>
+            </div>
+            <div class="odds-box">
+                <span>Join Now</span>
+                <button onclick="addToSlip('Blackjack Live', 'Join')">Play</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <h2>🔥 Hot Promotions</h2>
+        <div class="slider">
+            <div class="promo">
+                🎁 Welcome Bonus
+            </div>
+            <div class="promo">
+                ⚡ Weekly Jackpot
+            </div>
+            <div class="promo">
+                🏆 VIP Club Rewards
+            </div>
+        </div>
+    </section>
+    
+    <section class="testimonials">
+        <h2>What Players Say</h2>
+        <blockquote>"Fast withdrawals and great odds!" — Ankit</blockquote>
+        <blockquote>"The best betting site I’ve used." — Priya</blockquote>
+        <blockquote>"User-friendly and super secure." — Karan</blockquote>
+    </section>
+
+    <footer>
+        <p>© 2025 Luckline |
+            <a href="terms.html">Terms</a> |
+            <a href="support.html">Support</a> |
+            <a href="privacy.html">Privacy</a>
+        </p>
+    </footer>
+
+   <div class="bet-slip" id="betSlip">
+  <h3>My Bet Slip</h3>
+  <button onclick="window.location.href='bet.html'">Place Bet</button>
+</div>
+
+    <script>
+        function addToSlip(match, odds) {
+            const slipList = document.getElementById("slipList");
+            const li = document.createElement("li");
+            li.textContent = match + " | Odds: " + odds;
+            slipList.appendChild(li);
+        }
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById("placeBetBtn").addEventListener("click", function() {
+                alert("✅ Bet placed successfully!");
+                document.getElementById("slipList").innerHTML = "";
+            });
+        });
+    </script>
+
+</body>
+</html>

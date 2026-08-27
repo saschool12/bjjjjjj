@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Luckline — Place Bets</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="scripts.js" defer></script>
+  <style>
+    .bet-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .bet-card {
+      background: #16161d;
+      border-radius: 10px;
+      padding: 15px;
+      color: #fff;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+      transition: transform 0.2s;
+    }
+    .bet-card:hover { transform: translateY(-6px); }
+    .bet-card h3 { margin: 10px 0; }
+    .odds { font-size: 1.1rem; margin: 6px 0; color: #00e676; }
+    .bet-card button {
+      padding: 6px 12px;
+      background: #00e676;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .bet-card button:hover { background: #1de9b6; }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">🎲 Luckline</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="sports.html">Sports</a>
+      <a href="live.html">Live</a>
+      <a href="casino.html">Casino</a>
+      <a href="promotions.html">Promotions</a>
+      <a href="bet.html">Bet</a>
+      <a href="support.html">Support</a>
+      <a class="btn" href="login.html">Login</a>
+    </nav>
+  </header>
+
+  <!-- Banner -->
+  <section class="banner">
+    <h1>Place Your Bets</h1>
+    <p>Choose from Sports, Live Matches, and Casino Games.</p>
+  </section>
+
+  <!-- Bet Section -->
+  <section class="section">
+    <h2>All Available Bets</h2>
+    <div class="bet-grid">
+
+      <!-- Sports -->
+      <div class="bet-card"><h3>India vs Australia (Cricket)</h3><p class="odds">Odds: 1.85 | 2.10</p><button onclick="openBetModal('India vs Australia')">Bet Now</button></div>
+      <div class="bet-card"><h3>Barcelona vs Real Madrid (Football)</h3><p class="odds">Odds: 1.95 | 2.05</p><button onclick="openBetModal('Barcelona vs Real Madrid')">Bet Now</button></div>
+      <div class="bet-card"><h3>Lakers vs Warriors (Basketball)</h3><p class="odds">Odds: 1.90 | 2.20</p><button onclick="openBetModal('Lakers vs Warriors')">Bet Now</button></div>
+
+      <!-- Live -->
+      <div class="bet-card"><h3>Djokovic vs Nadal (Tennis) — Live</h3><p class="odds">Odds: 1.50 | 2.50</p><button onclick="openBetModal('Djokovic vs Nadal Live')">Bet Now</button></div>
+      <div class="bet-card"><h3>Argentina vs Brazil (Football) — Live</h3><p class="odds">Odds: 2.05 | 1.85</p><button onclick="openBetModal('Argentina vs Brazil Live')">Bet Now</button></div>
+      <div class="bet-card"><h3>Pakistan vs Sri Lanka (Cricket) — Live</h3><p class="odds">Odds: 1.85 | 2.10</p><button onclick="openBetModal('Pakistan vs Sri Lanka Live')">Bet Now</button></div>
+
+      <!-- Casino -->
+      <div class="bet-card"><h3>Roulette</h3><p class="odds">Min ₹50 | Max ₹5000</p><button onclick="openBetModal('Roulette')">Bet Now</button></div>
+      <div class="bet-card"><h3>Blackjack</h3><p class="odds">Min ₹100 | Max ₹10000</p><button onclick="openBetModal('Blackjack')">Bet Now</button></div>
+      <div class="bet-card"><h3>Poker</h3><p class="odds">Min ₹200 | Max ₹20000</p><button onclick="openBetModal('Poker')">Bet Now</button></div>
+      <div class="bet-card"><h3>Slots</h3><p class="odds">Spin ₹10 — ₹500</p><button onclick="openBetModal('Slots')">Bet Now</button></div>
+      <div class="bet-card"><h3>Teen Patti</h3><p class="odds">Min ₹50 | Max ₹1000</p><button onclick="openBetModal('Teen Patti')">Bet Now</button></div>
+      <div class="bet-card"><h3>Andar Bahar</h3><p class="odds">Min ₹50 | Max ₹5000</p><button onclick="openBetModal('Andar Bahar')">Bet Now</button></div>
+      <div class="bet-card"><h3>Dragon Tiger</h3><p class="odds">Min ₹100 | Max ₹2500</p><button onclick="openBetModal('Dragon Tiger')">Bet Now</button></div>
+
+      <!-- More casino options -->
+      <div class="bet-card"><h3>Baccarat</h3><p class="odds">Min ₹200 | Max ₹5000</p><button onclick="openBetModal('Baccarat')">Bet Now</button></div>
+      <div class="bet-card"><h3>Craps</h3><p class="odds">Min ₹100 | Max ₹5000</p><button onclick="openBetModal('Craps')">Bet Now</button></div>
+      <div class="bet-card"><h3>Keno</h3><p class="odds">Pick & Win</p><button onclick="openBetModal('Keno')">Bet Now</button></div>
+      <div class="bet-card"><h3>Bingo</h3><p class="odds">Tickets from ₹20</p><button onclick="openBetModal('Bingo')">Bet Now</button></div>
+      <div class="bet-card"><h3>Wheel of Fortune</h3><p class="odds">Spin ₹100</p><button onclick="openBetModal('Wheel of Fortune')">Bet Now</button></div>
+      <div class="bet-card"><h3>Rummy</h3><p class="odds">Min ₹50 | Max ₹2000</p><button onclick="openBetModal('Rummy')">Bet Now</button></div>
+      <div class="bet-card"><h3>Sic Bo</h3><p class="odds">Dice Bets ₹20+</p><button onclick="openBetModal('Sic Bo')">Bet Now</button></div>
+      <div class="bet-card"><h3>Lucky 7</h3><p class="odds">Win up to 7x</p><button onclick="openBetModal('Lucky 7')">Bet Now</button></div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Luckline | <a href="terms.html">Terms</a> | <a href="support.html">Support</a></p>
+  </footer>
+
+  <!-- Bet Slip -->
+  <div class="bet-slip" id="betSlip">
+    <h3>My Bet Slip</h3>
+    <ul id="slipList"></ul>
+    <button id="placeBetBtn">Place Bet</button>
+  </div>
+
+  <!-- Bet Modal -->
+  <div id="betModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h3>Place Your Bet</h3>
+      <p id="selectedGame"></p>
+      <label for="betAmount">Enter Amount:</label>
+      <input type="number" id="betAmount" placeholder="Enter ₹ amount">
+      <button onclick="confirmBet()">Confirm Bet</button>
+    </div>
+  </div>
+
+</body>
+</html>
