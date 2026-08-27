@@ -1,140 +1,135 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>JHONNY Arcade</title>
-<link rel="stylesheet" href="/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#111216">
+  <title>JHONNYWIN</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
-<body>
 
-<header>
-  <div class="logo">JHONNY<span>WIN</span></div>
-  <div id="guestBtns">
-    <button onclick="show('login')">Login</button>
-    <button class="gold" onclick="show('register')">Register</button>
+<body>
+<div class="app">
+
+<header class="topbar">
+  <div class="brand">
+    JHONNYWIN
+    <small>PLAY • HAVE FUN • DEMO</small>
   </div>
-  <div id="userBtns" class="hidden">
-    <span id="hello"></span>
-    <button onclick="logout()">Logout</button>
+
+  <div class="profile">
+    <div class="avatar">👤</div>
+    <div class="profile-text">
+      <b>◉ <span id="balance">1,000</span></b>
+      <div class="vip">VIP BASIC</div>
+    </div>
+    <button id="power" class="power">⏻</button>
   </div>
 </header>
 
-<div class="ticker">
-  ★ Welcome to JHONNY Arcade ★ Virtual points only ★
-</div>
-
-<section class="hero">
-  <div>
-    <small>WELCOME BONUS</small>
-    <h1>PLAY • WIN • HAVE FUN</h1>
-    <p>Arcade games with virtual points.</p>
-    <button class="gold" onclick="show('games')">PLAY NOW</button>
-  </div>
+<section class="promo-strip">
+  <button id="promoClose" class="close-promo">×</button>
+  <div class="promo-pill">Every Night</div>
+  <div class="promo-pill">Weekly Sunday</div>
+  <div class="promo-pill">Monthly 14th</div>
+  <button class="promo-main" onclick="toast('Promotions are demo-only')">
+    📦 Download & Claim
+  </button>
 </section>
 
-<nav class="quick">
-  <button onclick="show('games')">Hot Games</button>
-  <button onclick="show('account')">My Account</button>
-  <button onclick="show('leaderboard')">Leaderboard</button>
-  <button onclick="show('register')">Join Now</button>
+<main class="main">
+
+  <aside id="categories" class="sidebar"></aside>
+
+  <section class="content">
+
+    <div class="hero">
+      <div>
+        <h1>Games</h1>
+        <p>Browse the demo lobby. No real-money wagering or deposits.</p>
+      </div>
+      <div class="hero-badge">🏆</div>
+    </div>
+
+    <div class="toolbar">
+      <input
+        id="search"
+        class="search"
+        placeholder="Search games…"
+        autocomplete="off"
+      >
+
+      <select id="sort" class="sort">
+        <option value="popular">Popular</option>
+        <option value="az">A-Z</option>
+      </select>
+    </div>
+
+    <div id="gameGrid" class="game-grid"></div>
+
+  </section>
+</main>
+</div>
+
+<nav class="bottom-nav">
+  <button class="nav-item active" data-label="Home">
+    <span class="ico">🏠</span>
+    Home
+  </button>
+
+  <button class="nav-item" data-label="Agent">
+    <span class="ico">🧧</span>
+    Agent
+  </button>
+
+  <button class="nav-item deposit" data-label="Deposit">
+    <span class="ico">💰</span>
+    Deposit
+  </button>
+
+  <button class="nav-item" data-label="Promotion">
+    <span class="ico">🎁</span>
+    Promotion
+  </button>
+
+  <button class="nav-item" data-label="Member">
+    <span class="ico">👤</span>
+    Member
+  </button>
 </nav>
 
-<main>
+<div id="gameModal" class="modal">
+  <div class="modal-box">
 
-<section id="home" class="page active">
-  <h2>🔥 Hot Games</h2>
-  <div class="games">
-    <article onclick="play('Lucky Slots')">
-      <div class="gamepic">777</div>
-      <h3>Lucky Slots</h3>
-      <p>Try your luck with points</p>
-    </article>
-    <article onclick="play('Number Guess')">
-      <div class="gamepic">?</div>
-      <h3>Number Guess</h3>
-      <p>Guess the hidden number</p>
-    </article>
-    <article onclick="play('Reaction')">
-      <div class="gamepic">⚡</div>
-      <h3>Reaction Test</h3>
-      <p>Test your reaction speed</p>
-    </article>
-    <article onclick="play('Memory')">
-      <div class="gamepic">★</div>
-      <h3>Memory Match</h3>
-      <p>Match the symbols</p>
-    </article>
-  </div>
-</section>
-
-<section id="games" class="page">
-  <h2>🎮 Games</h2>
-  <div class="games">
-    <article onclick="play('Lucky Slots')"><div class="gamepic">777</div><h3>Lucky Slots</h3></article>
-    <article onclick="play('Number Guess')"><div class="gamepic">?</div><h3>Number Guess</h3></article>
-    <article onclick="play('Reaction')"><div class="gamepic">⚡</div><h3>Reaction Test</h3></article>
-    <article onclick="play('Memory')"><div class="gamepic">★</div><h3>Memory Match</h3></article>
-  </div>
-</section>
-
-<section id="login" class="page">
-  <div class="formbox">
-    <h2>Login</h2>
-    <input id="loginUser" placeholder="Username">
-    <input id="loginPass" type="password" placeholder="Password">
-    <button class="gold big" onclick="login()">Login</button>
-    <button class="google" onclick="googleDemo()">G Continue with Google</button>
-    <p>Don't have an account?</p>
-    <button onclick="show('register')">Register</button>
-  </div>
-</section>
-
-<section id="register" class="page">
-  <div class="formbox">
-    <h2>Register</h2>
-    <input id="regUser" placeholder="Username">
-    <input id="regEmail" type="email" placeholder="Email">
-    <input id="regPass" type="password" placeholder="Password">
-    <input id="regConfirm" type="password" placeholder="Confirm password">
-    <button class="gold big" onclick="register()">Register</button>
-    <p>Already have an account?</p>
-    <button onclick="show('login')">Login</button>
-  </div>
-</section>
-
-<section id="account" class="page">
-  <div class="account">
-    <div class="avatar">J</div>
-    <h2 id="accountName">Guest</h2>
-    <p id="accountEmail"></p>
-    <div class="balance">
-      <small>VIRTUAL POINTS</small>
-      <strong id="balance">0</strong>
+    <div class="modal-head">
+      <h2 id="modalTitle">Game</h2>
+      <button id="closeModal" class="x">×</button>
     </div>
-    <button class="gold" onclick="logout()">Logout</button>
-  </div>
-</section>
 
-<section id="leaderboard" class="page">
-  <h2>🏆 Leaderboard</h2>
-  <div id="leaders"></div>
-</section>
+    <div id="modalArt" class="modal-art">🎰</div>
 
-</main>
+    <div class="modal-balance">
+      Demo points:
+      <span id="modalBalance">1,000</span>
+    </div>
 
-<div id="modal" class="modal hidden">
-  <div class="modalbox">
-    <button class="close" onclick="closeModal()">×</button>
-    <h2 id="modalTitle"></h2>
-    <div id="modalContent"></div>
+    <div class="modal-row">
+      <input id="demoBet" type="number" min="1" value="10">
+      <button id="playDemo" class="gold-btn">
+        Play Demo
+      </button>
+    </div>
+
+    <div class="notice">
+      This is a demo only. No real money, deposits,
+      withdrawals or real betting are processed.
+    </div>
+
   </div>
 </div>
 
-<footer>
-  JHONNY Arcade • Educational Demo • Virtual points only
-</footer>
+<div id="toast" class="toast"></div>
 
-<script src="/app.js"></script>
+<script src="scripts.js"></script>
 </body>
 </html>
